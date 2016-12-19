@@ -5,12 +5,12 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Status;
+use app\models\StatusUser;
 
 /**
  * StatusSearch represents the model behind the search form about `app\models\Status`.
  */
-class StatusSearch extends Status
+class StatusUserSearch extends StatusUser
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class StatusSearch extends Status
      */
     public function search($params)
     {
-        $query = Status::find();
+        $query = StatusUser::find();
 
         // add conditions that should always apply here
 

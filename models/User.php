@@ -212,7 +212,7 @@ class User extends ActiveRecord implements IdentityInterface
     
     public function getStatus()
     {
-        return $this->hasOne(Status::className(), ['id' => 'status_id']);
+        return $this->hasOne(StatusUser::className(), ['id' => 'status_id']);
     }
     
     public function getStatusName()
@@ -222,7 +222,7 @@ class User extends ActiveRecord implements IdentityInterface
     
     public static function getStatusList()
     {
-        $droptions = Status::find()->asArray()->all();
+        $droptions = StatusUser::find()->asArray()->all();
         return ArrayHelper::map($droptions, 'id', 'status_name');
     }
 }

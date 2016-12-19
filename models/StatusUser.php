@@ -12,14 +12,14 @@ use yii\helpers\ArrayHelper;
  * @property string $status_name
  * @property integer $status_value
  */
-class Status extends \yii\db\ActiveRecord
+class StatusUser extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'status';
+        return 'status_user';
     }
 
     /**
@@ -52,7 +52,7 @@ class Status extends \yii\db\ActiveRecord
     }
     
     public static function getStatusList() {
-        $droptions = Status::find()->asArray()->all();
+        $droptions = StatusUser::find()->asArray()->all();
         return ArrayHelper::map($droptions, 'id', 'status_name');
     }
 }
