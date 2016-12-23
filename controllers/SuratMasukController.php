@@ -58,7 +58,7 @@ class SuratMasukController extends Controller
                 return $this->redirect(['view','id' => $modelSurat->id]);
             }
         } else {
-            return $this->render('create', ['modelSurat'=>$modelSurat, 'modelRegin'=>$modelRegin]);
+            return $this->render('create', ['modelSurat'=>$modelSurat, 'modelTujuan'=>$modelTujuan, 'modelRegin'=>$modelRegin]);
         }
     }
 }
