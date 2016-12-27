@@ -64,6 +64,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['username', 'required'],
             ['username', 'unique'],
             ['username', 'string', 'min' => 6, 'max' => 255],
+            ['unit_id', 'integer'],
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'unique'],
@@ -82,6 +83,7 @@ class User extends ActiveRecord implements IdentityInterface
             'password_hash' => 'Password Hash',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
+            'unit_id' => 'Unit Kerja',
             'role_id' => 'Role',
             'status_id' => 'Status',
             'created_at' => 'Created At',
@@ -224,5 +226,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $droptions = StatusUser::find()->asArray()->all();
         return ArrayHelper::map($droptions, 'id', 'status_name');
+    }
+    
+    public function getUnitKerja() {
+        return $this->hasOne(UnitKerja::className(), ['id' => 'unit_id']);
     }
 }

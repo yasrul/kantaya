@@ -51,7 +51,10 @@ class SuratMasukController extends Controller
         
         $postData = Yii::$app->request->post();
         if ($modelSurat->load($postData) && $modelTujuan->load($postData) && $modelRegin->load($postData)) {
-            $isValid = Model::validateMultiple([$modelSurat, $modelRegin]);
+            
+            $modelSurat->id = Surat::maxIdSurat();
+            
+            $isValid = Model::validateMultiple([$modelSurat, $modelTujuan, $modelRegin]);
             if ($isValid) {
                 $modelSurat->save();
                 $modelTujuan->save();
@@ -61,7 +64,7 @@ class SuratMasukController extends Controller
         } else {
             return $this->render('create', [
                 'modelSurat'=>$modelSurat, 
-                'modelTujuan'=>$modelTujuan, 
+                'modelTujuan'=>$modelTujuan,
                 'modelRegin'=>$modelRegin
             ]);
         }

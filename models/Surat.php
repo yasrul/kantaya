@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use app\models\KecepatanTanggapan;
+use app\models\TingkatKeamanan;
 
 /**
  * This is the model class for table "surat".
@@ -61,5 +63,30 @@ class Surat extends \yii\db\ActiveRecord
             'pengirim_manual' => 'Pengirim Manual',
             'alamat_manual' => 'Alamat Manual',
         ];
+    }
+    
+    public function getKecepatanTanggapan() {
+        return $this->hasOne(KecepatanTanggapan::className(), ['id' => 'kecepatan_tanggapan']);
+    }
+    
+    public function getTingkatKeamanan() {
+        return $this->hasOne(TingkatKeamanan::className(), ['id' => 'tingkat_keamanan']);
+    }
+
+    public static function maxIdSurat() {
+        $idUnit = Yii::$app->user->identity->unit_id;
+        $th = Yii::$app->formatter->asDate($this->tgl_surat,'yy');
+        
+        $q = 'select max(id) from surat where substring(id, 1,4) = :unitTahun';
+        $cmd = Yii::$app->db->createCommand($q);
+        $cmd->bindValue(':unitTahun', $idUnit.$th,\PDO::PARAM_STR);
+        $maxId = $cmd->queryScalar();
+        
+        if ($maxId == NULL) {
+            $maxId = 1;
+        } else {
+            $maxId = substr($maxId, 4, 4)+1;
+        }
+        return $idUnit.$th.sprintf("%04d",$maxId);
     }
 }
