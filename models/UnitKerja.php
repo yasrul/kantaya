@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "unit_kerja".
@@ -43,5 +44,10 @@ class UnitKerja extends \yii\db\ActiveRecord
             'unit_kerja' => 'Unit Kerja',
             'id_induk' => 'Id Induk',
         ];
+    }
+    
+    public static function listUnit($idInduk) {
+        $dropOptions = UnitKerja::find()->where(['id_induk'=>$idInduk])->asArray()->all();
+        return ArrayHelper::map($dropOptions, 'id', 'unit_kerja');
     }
 }

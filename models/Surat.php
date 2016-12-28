@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\models\KecepatanTanggapan;
+use app\models\KecepatanSampai;
 use app\models\TingkatKeamanan;
 
 /**
@@ -14,7 +14,7 @@ use app\models\TingkatKeamanan;
  * @property string $tgl_surat
  * @property string $perihal
  * @property string $lampiran
- * @property integer $kecepatan_tanggapan
+ * @property integer $kecepatan_sampai
  * @property integer $tingkat_keamanan
  * @property string $file_arsip
  * @property integer $id_pengirim
@@ -39,7 +39,7 @@ class Surat extends \yii\db\ActiveRecord
         return [
             [['no_surat', 'tgl_surat', 'perihal'], 'required'],
             [['tgl_surat'], 'safe'],
-            [['kecepatan_tanggapan', 'tingkat_keamanan', 'id_pengirim'], 'integer'],
+            [['kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim'], 'integer'],
             [['no_surat', 'perihal', 'file_arsip', 'alamat_manual'], 'string', 'max' => 255],
             [['lampiran', 'pengirim_manual'], 'string', 'max' => 100],
         ];
@@ -56,7 +56,7 @@ class Surat extends \yii\db\ActiveRecord
             'tgl_surat' => 'Tgl Surat',
             'perihal' => 'Perihal',
             'lampiran' => 'Lampiran',
-            'kecepatan_tanggapan' => 'Kecepatan Tanggapan',
+            'kecepatan_sampai' => 'Kecepatan Sampai',
             'tingkat_keamanan' => 'Tingkat Keamanan',
             'file_arsip' => 'File Arsip',
             'id_pengirim' => 'Id Pengirim',
@@ -65,8 +65,8 @@ class Surat extends \yii\db\ActiveRecord
         ];
     }
     
-    public function getKecepatanTanggapan() {
-        return $this->hasOne(KecepatanTanggapan::className(), ['id' => 'kecepatan_tanggapan']);
+    public function getKecepatanSampai() {
+        return $this->hasOne(KecepatanSampai::className(), ['id' => 'kecepatan_sampai']);
     }
     
     public function getTingkatKeamanan() {

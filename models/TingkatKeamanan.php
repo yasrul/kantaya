@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "tingkat_keamanan".
@@ -43,5 +44,10 @@ class TingkatKeamanan extends \yii\db\ActiveRecord
             'nama_tingkat' => 'Nama Tingkat',
             'nilai_tingkat' => 'Nilai Tingkat',
         ];
+    }
+    
+    public static function listKeamanan() {
+        $dropOptions = TingkatKeamanan::find()->asArray()->all();
+        return ArrayHelper::map($dropOptions, 'id', 'nama_tingkat');
     }
 }

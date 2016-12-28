@@ -3,22 +3,23 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "kecepatan_tanggapan".
+ * This is the model class for table "kecepatan_sampai".
  *
  * @property integer $id
  * @property string $nama_kecepatan
  * @property integer $nilai_kecepatan
  */
-class KecepatanTanggapan extends \yii\db\ActiveRecord
+class KecepatanSampai extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'kecepatan_tanggapan';
+        return 'kecepatan_sampai';
     }
 
     /**
@@ -43,5 +44,10 @@ class KecepatanTanggapan extends \yii\db\ActiveRecord
             'nama_kecepatan' => 'Nama Kecepatan',
             'nilai_kecepatan' => 'Nilai Kecepatan',
         ];
+    }
+    
+    public static function listKecepatan() {
+        $dropOption = KecepatanSampai::find()->asArray()->all();
+        return ArrayHelper::map($dropOption, 'id', 'nama_kecepatan');
     }
 }
