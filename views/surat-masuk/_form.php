@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\bootstrap\Collapse;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use app\models\KecepatanSampai;
@@ -43,8 +44,17 @@ use app\models\UnitKerja;
         'options' => ['placeholder' => '[ Pilih Pengirim ]'],
         'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
     ]) ?>
-    <?= $form->field($modelSurat, 'pengirim_manual')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
-    <?= $form->field($modelSurat, 'alamat_manual')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
+    <?php echo Collapse::widget([
+        'items' => [
+            [
+                'label' => 'Pengirim Manual',
+                'content' => [
+                    $form->field($modelSurat, 'pengirim_manual')->textInput(['maxLength'=>true, 'style'=>'width : 500px']),
+                    $form->field($modelSurat, 'alamat_manual')->textInput(['maxLength'=>true, 'style'=>'width : 500px'])
+                ]
+            ]
+        ]
+    ]); ?>
     
     <?= $form->field($modelTujuan, 'id_penerima')->widget(Select2::className(), [
         'data' => UnitKerja::listUnit(Yii::$app->user->identity->unit_id),
