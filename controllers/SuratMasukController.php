@@ -27,7 +27,7 @@ class SuratMasukController extends Controller
                     [
                         'actions' => ['index','create','update','delete'],
                         'allow' => TRUE,
-                        'roles' => ['@']
+                        'roles' => ['@'],
                     ]
                 ]
             ],
@@ -46,13 +46,16 @@ class SuratMasukController extends Controller
     
     public function actionCreate() {
         $modelSurat = new Surat();
-        $modelTujuan = new TujuanSurat();
-        $modelRegin = new Regin();
+        $modelTujuan = [ new TujuanSurat ];
+        $modelRegin = [ new Regin ];
         
         $postData = Yii::$app->request->post();
         if ($modelSurat->load($postData) && $modelTujuan->load($postData) && $modelRegin->load($postData)) {
             
-            $modelSurat->id = Surat::maxIdSurat();
+            $modelSurat->id = Surat::maxIdSurat($modelSurat->tgl_surat);
+            $modelTujuan->id_surat = $modelSurat->id;
+            $modelRegin->id_unit = Yii::$app->user->identity->unit_id;
+            $modelRegin->id_surat = $modelSurat->id;
             
             $isValid = Model::validateMultiple([$modelSurat, $modelTujuan, $modelRegin]);
             if ($isValid) {

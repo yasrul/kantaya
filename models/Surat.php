@@ -73,9 +73,9 @@ class Surat extends \yii\db\ActiveRecord
         return $this->hasOne(TingkatKeamanan::className(), ['id' => 'tingkat_keamanan']);
     }
 
-    public static function maxIdSurat() {
+    public static function maxIdSurat($tglSurat) {
         $idUnit = Yii::$app->user->identity->unit_id;
-        $th = Yii::$app->formatter->asDate($this->tgl_surat,'yy');
+        $th = Yii::$app->formatter->asDate($tglSurat,'yy');
         
         $q = 'select max(id) from surat where substring(id, 1,4) = :unitTahun';
         $cmd = Yii::$app->db->createCommand($q);
