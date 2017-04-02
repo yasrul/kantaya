@@ -20,6 +20,7 @@ use app\models\ValueHelpers;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
+ * @property integer $unit_id
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at

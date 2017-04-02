@@ -12,7 +12,7 @@ use app\models\UnitKerja;
 /* @var $this yii\web\View */
 /* @var $modelSurat app\models\Surat */
 /* @var $modelTujuan app\models\TujuanSurat */
-/* @var $modelRegin app\models\Regin */
+/* @var $modelRegister app\models\Register */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
@@ -61,12 +61,13 @@ use app\models\UnitKerja;
         'options' => ['placeholder' => '[ Pilih Penerima ]'],
         'pluginOptions' => ['allowClear' => TRUE, 'width'=>'500px']
     ]) ?>
+    
     <?= $form->field($modelTujuan, 'penerima_manual')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
     <?= $form->field($modelTujuan, 'alamat_manual')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
     
-    <?= $form->field($modelRegin, 'no_agenda')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
-    <?= $form->field($modelRegin, 'kode')->textInput(['maxLength' => true, 'style' => 'width : 300px']) ?>
-    <?= $form->field($modelRegin, 'tgl_terima')->widget(DatePicker::className(), [
+    <?= $form->field($modelRegister, 'no_agenda')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
+    <?= $form->field($modelRegister, 'kode')->textInput(['maxLength' => true, 'style' => 'width : 300px']) ?>
+    <?= $form->field($modelRegister, 'tgl_trans')->widget(DatePicker::className(), [
         'options' => ['placeholder' => '[ Tanggal Terima ]', 'style' => 'width : 300px'],
         'pluginOptions' => [
             'autoclose' => TRUE,

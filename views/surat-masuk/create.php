@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $modelSurat app\models\Surat */
-/* @var $modelRegin app\models\Regin */
+/* @var $modelRegister app\models\Register */
 /* @var $modelTujuan app\models\TujuanSurat */
 
 $this->title = 'Create Surat Masuk (manual)';
@@ -17,6 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'modelSurat'=>$modelSurat,
         'modelTujuan'=>$modelTujuan,
-        'modelRegin'=>$modelRegin
+        'modelRegister'=>$modelRegister
     ]) ?>
 </div>
