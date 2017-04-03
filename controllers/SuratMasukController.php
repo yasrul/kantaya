@@ -4,9 +4,9 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\base\Model;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use app\models\Model;
 use app\models\Surat;
 use app\models\Register;
 use app\models\TujuanSurat;
@@ -46,8 +46,8 @@ class SuratMasukController extends Controller
     
     public function actionCreate() {
         $modelSurat = new Surat();
-        $modelTujuan = [ new TujuanSurat ];
-        $modelRegister = [ new Register ];
+        $modelTujuan = [new TujuanSurat];
+        $modelRegister = [new Register];
         
         $postData = Yii::$app->request->post();
         if ($modelSurat->load($postData) && $modelTujuan->load($postData) && $modelRegister->load($postData)) {
@@ -68,8 +68,13 @@ class SuratMasukController extends Controller
             return $this->render('create', [
                 'modelSurat'=>$modelSurat, 
                 'modelTujuan'=>$modelTujuan,
-                'modelRegister'=>$modelRegister
+                'modelRegister'=>$modelRegister,
             ]);
         }
+        return $this->render('create', [
+                'modelSurat'=>$modelSurat, 
+                'modelTujuan'=>$modelTujuan,
+                'modelRegister'=>$modelRegister,
+            ]);
     }
 }

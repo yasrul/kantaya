@@ -46,8 +46,8 @@ class UnitKerja extends \yii\db\ActiveRecord
         ];
     }
     
-    public static function listUnit($idInduk) {
-        $dropOptions = UnitKerja::find()->where(['id_induk'=>$idInduk])->asArray()->all();
+    public static function listUnit() {
+        $dropOptions = UnitKerja::find()->asArray()->all();
         return ArrayHelper::map($dropOptions, 'id', 'unit_kerja');
     }
 }

@@ -38,12 +38,14 @@ use app\models\UnitKerja;
         'prompt' => '[ Pilih Tingkat Keamanan ]',
         'style' => 'width : 300px',
     ]) ?>
+    
     <?= $form->field($modelSurat, 'file_arsip')->textInput() ?>
     <?= $form->field($modelSurat, 'id_pengirim')->widget(Select2::className(), [
         'data' => UnitKerja::listUnit(Yii::$app->user->identity->unit_id),
         'options' => ['placeholder' => '[ Pilih Pengirim ]'],
         'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
     ]) ?>
+    
     <?php echo Collapse::widget([
         'items' => [
             [
@@ -54,12 +56,11 @@ use app\models\UnitKerja;
                 ]
             ]
         ]
-    ]); ?>
-    
+    ]) ?>
     <?= $form->field($modelTujuan, 'id_penerima')->widget(Select2::className(), [
         'data' => UnitKerja::listUnit(Yii::$app->user->identity->unit_id),
-        'options' => ['placeholder' => '[ Pilih Penerima ]'],
-        'pluginOptions' => ['allowClear' => TRUE, 'width'=>'500px']
+        'options' => ['placeholder' => '[ Pilih Pengirim ]'],
+        'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
     ]) ?>
     
     <?= $form->field($modelTujuan, 'penerima_manual')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
@@ -75,6 +76,7 @@ use app\models\UnitKerja;
         ],
         'removeButton' => false
     ]) ?>
+    
     
     <div class="form-group">
         <?= Html::submitButton($modelSurat->isNewRecord ? 'Create' : 'Update', ['class'=>$modelSurat->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
