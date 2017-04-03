@@ -41,7 +41,7 @@ use app\models\UnitKerja;
     
     <?= $form->field($modelSurat, 'file_arsip')->textInput() ?>
     <?= $form->field($modelSurat, 'id_pengirim')->widget(Select2::className(), [
-        'data' => UnitKerja::listUnit(Yii::$app->user->identity->unit_id),
+        'data' => UnitKerja::listUnit(),
         'options' => ['placeholder' => '[ Pilih Pengirim ]'],
         'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
     ]) ?>
@@ -57,25 +57,14 @@ use app\models\UnitKerja;
             ]
         ]
     ]) ?>
+    
     <?= $form->field($modelTujuan, 'id_penerima')->widget(Select2::className(), [
-        'data' => UnitKerja::listUnit(Yii::$app->user->identity->unit_id),
+        'data' => UnitKerja::listUnit(),
         'options' => ['placeholder' => '[ Pilih Pengirim ]'],
         'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
     ]) ?>
-    
     <?= $form->field($modelTujuan, 'penerima_manual')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
     <?= $form->field($modelTujuan, 'alamat_manual')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
-    
-    <?= $form->field($modelRegister, 'no_agenda')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
-    <?= $form->field($modelRegister, 'kode')->textInput(['maxLength' => true, 'style' => 'width : 300px']) ?>
-    <?= $form->field($modelRegister, 'tgl_trans')->widget(DatePicker::className(), [
-        'options' => ['placeholder' => '[ Tanggal Terima ]', 'style' => 'width : 300px'],
-        'pluginOptions' => [
-            'autoclose' => TRUE,
-            'format' => 'yyyy-mm-dd'
-        ],
-        'removeButton' => false
-    ]) ?>
     
     
     <div class="form-group">
