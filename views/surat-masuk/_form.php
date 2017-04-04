@@ -20,7 +20,7 @@ use app\models\UnitKerja;
 ?>
 
 <div class="surat-masuk-form">
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'surat-masuk-form']); ?>
     <?= $form->field($modelSurat, 'no_surat')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
     <?= $form->field($modelSurat, 'tgl_surat')->widget(DatePicker::className(), [
         'options' => ['placeholder' => '[ Tanggal Surat ]', 'style' => 'width : 300px'],
@@ -93,8 +93,8 @@ use app\models\UnitKerja;
                     <?= $form->field($tujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
                         'data' => UnitKerja::listUnit(),
                         'options' => ['placeholder' => '[ Pilih Pengirim ]'],
-                        'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
-                    ]) ?>
+                        'pluginOptions' => ['allowClear' => true, 'width'=>'500px'],
+                    ]); ?>
                     <?= $form->field($tujuan, "[{$i}]penerima_manual")->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
                     <?= $form->field($tujuan, "[{$i}]alamat_manual")->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
                    

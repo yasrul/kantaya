@@ -50,4 +50,15 @@ class TujuanSurat extends \yii\db\ActiveRecord
             'status' => 'Status',
         ];
     }
+    
+    public function getSurat() 
+    {
+        return $this->hasOne(Surat::className(), ['id' => 'id_surat']);
+        
+    }
+    
+    public function getPenerima()
+    {
+        return $this->hasOne(UnitKerja::className(), ['id' => 'id_penerima']);
+    }
 }

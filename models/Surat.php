@@ -72,6 +72,14 @@ class Surat extends \yii\db\ActiveRecord
     public function getTingkatKeamanan() {
         return $this->hasOne(TingkatKeamanan::className(), ['id' => 'tingkat_keamanan']);
     }
+    
+    public function getTujuan() {
+        return $this->hasMany(TujuanSurat::className(), ['id_surat' => 'id' ]);
+    }
+    
+    public function getPengirim() {
+        return $this->hasOne(UnitKerja::className(), ['id' => 'id_pengirim']);
+    }
 
     public static function maxIdSurat($tglSurat) {
         $idUnit = Yii::$app->user->identity->unit_id;
