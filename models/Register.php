@@ -16,7 +16,7 @@ use app\models\StatusKirim;
  * @property string $no_agenda
  * @property string $kode
  * @property integer $status_surat
- * @property integer $status_kirim
+ * @property integer $status_register
  */
 class Register extends \yii\db\ActiveRecord
 {
@@ -35,7 +35,7 @@ class Register extends \yii\db\ActiveRecord
     {
         return [
             [['id_unit', 'id_surat', 'tgl_trans', 'status_surat', 'status_kirim'], 'required'],
-            [['id_unit', 'id_surat', 'status_surat', 'status_kirim'], 'integer'],
+            [['id_unit', 'id_surat', 'status_surat', 'status_register'], 'integer'],
             [['tgl_trans'], 'safe'],
             [['no_agenda'], 'string', 'max' => 30],
             [['kode'], 'string', 'max' => 10],
@@ -55,7 +55,7 @@ class Register extends \yii\db\ActiveRecord
             'no_agenda' => 'No Agenda',
             'kode' => 'Kode',
             'status_surat' => 'Status Surat',
-            'status_kirim' => 'Status Kirim',
+            'status_register' => 'Status Register',
         ];
     }
     
@@ -63,7 +63,7 @@ class Register extends \yii\db\ActiveRecord
         return $this->hasOne(StatusSurat::className(), ['id' => 'status_surat']);
     }
     
-    public function getStatusKirim() {
-        return $this->hasOne(StatusKirim::className(), ['id' => 'status_kirim']);
+    public function getStatusRegister() {
+        return $this->hasOne(StatusRegister::className(), ['id' => 'status_register']);
     }
 }

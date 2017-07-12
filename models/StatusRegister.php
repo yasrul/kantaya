@@ -5,20 +5,20 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "status_kirim".
+ * This is the model class for table "status_register".
  *
  * @property integer $id
  * @property string $status_name
  * @property integer $status_value
  */
-class StatusKirim extends \yii\db\ActiveRecord
+class StatusRegister extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'status_kirim';
+        return 'status_register';
     }
 
     /**

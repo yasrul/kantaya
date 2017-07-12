@@ -84,23 +84,20 @@ use app\models\UnitKerja;
 
             <div class="container-items"><!-- widgetContainer -->
             <?php foreach ($modelTujuan as $i => $tujuan): ?>
-                <div class="item row">
-     
+                <div class="item row">    
                     <?php
                         // necessary for update action.
                         if (! $tujuan->isNewRecord) {
                             echo Html::activeHiddenInput($tujuan, "[{$i}]id");
                         }
-                    ?>
-                    
-                        <?= $form->field($tujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
+                    ?>                   
+                    <?= $form->field($tujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
                         'data' => UnitKerja::listUnit(Yii::$app->user->identity->unit_id),
                         'options' => ['placeholder' => '[ Pilih Pengirim ]'],
                         'pluginOptions' => ['allowClear' => true],
-                        ]); ?>
-                    
-                    
-                    
+                    ]); ?>
+                                       
+                    <!--
                         <?php echo Collapse::widget([
                         'items' => [
                             [
@@ -112,7 +109,7 @@ use app\models\UnitKerja;
                             ]
                         ]
                         ]) ?>
-                    
+                    -->
                           
                                        
                     <div class="col-sm-2 col-md-1 item-action">

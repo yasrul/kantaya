@@ -46,8 +46,8 @@ class SuratMasukController extends Controller
     
     public function actionCreate() {
         $modelSurat = new Surat();
-        $modelTujuan = [ new TujuanSurat ];
-        //$modelRegister = [new Register];
+        $modelTujuan = [new TujuanSurat];
+        $modelRegister = [new Register];
      
         if ($modelSurat->load(Yii::$app->request->post())) {
             $modelTujuan = Model::createMultiple(TujuanSurat::className());
