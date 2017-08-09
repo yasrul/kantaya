@@ -96,7 +96,7 @@ class SuratMasukController extends Controller
                         ]);
                     }
                 } catch (Exception $e) {
-                    // penyimpanan galga, rollback database transaction
+                    // penyimpanan gagal, rollback database transaction
                     $transaction->rollBack();
                     throw $e;
                 }
