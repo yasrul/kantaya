@@ -23,6 +23,7 @@ use app\models\TingkatKeamanan;
  */
 class Surat extends \yii\db\ActiveRecord
 {
+    use \mdm\behaviors\ar\RelationTrait;
     /**
      * @inheritdoc
      */
@@ -77,7 +78,11 @@ class Surat extends \yii\db\ActiveRecord
         return $this->hasMany(TujuanSurat::className(), ['id_surat' => 'id' ]);
     }
     
-    public function getPengirim() {
+    public function setTujuan($value) {
+        $this->loadRelated('tujuan', $values);
+    }
+
+        public function getPengirim() {
         return $this->hasOne(UnitKerja::className(), ['id' => 'id_pengirim']);
     }
 

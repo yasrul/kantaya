@@ -33,6 +33,7 @@ class TujuanSurat extends \yii\db\ActiveRecord
             [['id_surat', 'status'], 'required'],
             [['id_surat', 'id_penerima', 'status'], 'integer'],
             [['penerima_manual', 'alamat_manual'], 'string', 'max' => 255],
+            [['id'], 'safe'],
         ];
     }
 
