@@ -20,6 +20,8 @@ use app\models\TingkatKeamanan;
  * @property integer $id_pengirim
  * @property string $pengirim_manual
  * @property string $alamat_manual
+ * 
+ * @property TujuanSurat[] $tujuan
  */
 class Surat extends \yii\db\ActiveRecord
 {
@@ -79,7 +81,7 @@ class Surat extends \yii\db\ActiveRecord
     }
     
     public function setTujuan($value) {
-        $this->loadRelated('tujuan', $values);
+        $this->loadRelated('tujuan', $value);
     }
 
         public function getPengirim() {
