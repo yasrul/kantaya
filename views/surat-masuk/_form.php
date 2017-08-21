@@ -62,7 +62,6 @@ use app\models\UnitKerja;
         ]
     ]) ?>
     
-    
     <div class="form-group">
         <?= GridInput::widget([
             'allModels' => $modelSurat->tujuan,
