@@ -35,7 +35,7 @@ class Register extends \yii\db\ActiveRecord
     {
         return [
             [['id_unit', 'id_surat', 'tgl_trans', 'status_surat', 'status_kirim'], 'required'],
-            [['id_unit', 'id_surat', 'status_surat', 'status_register'], 'integer'],
+            [['id_unit', 'id_surat', 'status_surat', 'status_reg'], 'integer'],
             [['tgl_trans'], 'safe'],
             [['no_agenda'], 'string', 'max' => 30],
             [['kode'], 'string', 'max' => 10],
@@ -55,7 +55,7 @@ class Register extends \yii\db\ActiveRecord
             'no_agenda' => 'No Agenda',
             'kode' => 'Kode',
             'status_surat' => 'Status Surat',
-            'status_register' => 'Status Register',
+            'status_reg' => 'Status Register',
         ];
     }
     
