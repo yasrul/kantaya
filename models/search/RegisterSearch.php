@@ -5,12 +5,12 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\TujuanSurat;
+use app\models\Register;
 
 /**
- * TujuanSuratSearch represents the model behind the search form about `app\models\TujuanSurat`.
+ * RegisterSearch represents the model behind the search form about `app\models\Register`.
  */
-class TujuanSuratSearch extends TujuanSurat
+class RegisterSearch extends Register
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class TujuanSuratSearch extends TujuanSurat
     public function rules()
     {
         return [
-            [['id', 'id_surat', 'id_penerima', 'status_tujuan'], 'integer'],
-            [['penerima_manual', 'alamat_manual'], 'safe'],
+            [['id', 'id_unit', 'id_surat', 'status_surat', 'status_reg'], 'integer'],
+            [['tgl_trans', 'no_agenda', 'kode'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class TujuanSuratSearch extends TujuanSurat
      */
     public function search($params)
     {
-        $query = TujuanSurat::find();
+        $query = Register::find();
 
         // add conditions that should always apply here
 
@@ -60,13 +60,15 @@ class TujuanSuratSearch extends TujuanSurat
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'id_unit' => $this->id_unit,
             'id_surat' => $this->id_surat,
-            'id_penerima' => $this->id_penerima,
-            'status_tujuan' => $this->status,
+            'tgl_trans' => $this->tgl_trans,
+            'status_surat' => $this->status_surat,
+            'status_reg' => $this->status_reg,
         ]);
 
-        $query->andFilterWhere(['like', 'penerima_manual', $this->penerima_manual])
-            ->andFilterWhere(['like', 'alamat_manual', $this->alamat_manual]);
+        $query->andFilterWhere(['like', 'no_agenda', $this->no_agenda])
+            ->andFilterWhere(['like', 'kode', $this->kode]);
 
         return $dataProvider;
     }
