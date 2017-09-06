@@ -34,7 +34,7 @@ class Register extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_unit', 'id_surat', 'tgl_trans', 'status_surat', 'status_kirim'], 'required'],
+            [['id_unit', 'id_surat', 'tgl_trans', 'status_surat', 'status_reg'], 'required'],
             [['id_unit', 'id_surat', 'status_surat', 'status_reg'], 'integer'],
             [['tgl_trans'], 'safe'],
             [['no_agenda'], 'string', 'max' => 30],
