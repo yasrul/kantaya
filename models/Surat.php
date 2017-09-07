@@ -20,7 +20,7 @@ use app\models\TingkatKeamanan;
  * @property integer $id_pengirim
  * @property string $pengirim_manual
  * @property string $alamat_manual
- * 
+ * @property integer $status_akses
  * @property TujuanSurat[] $tujuan
  */
 class Surat extends \yii\db\ActiveRecord
@@ -42,7 +42,7 @@ class Surat extends \yii\db\ActiveRecord
         return [
             [['no_surat', 'tgl_surat', 'perihal'], 'required'],
             [['tgl_surat'], 'safe'],
-            [['kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim'], 'integer'],
+            [['kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim','status_akses'], 'integer'],
             [['no_surat', 'perihal', 'file_arsip', 'alamat_manual'], 'string', 'max' => 255],
             [['lampiran', 'pengirim_manual'], 'string', 'max' => 100],
         ];
@@ -65,6 +65,7 @@ class Surat extends \yii\db\ActiveRecord
             'id_pengirim' => 'Id Pengirim',
             'pengirim_manual' => 'Pengirim Manual',
             'alamat_manual' => 'Alamat Manual',
+            'status_akses' => 'Status Akses',
         ];
     }
     
@@ -94,6 +95,10 @@ class Surat extends \yii\db\ActiveRecord
 
     public function getPengirim() {
         return $this->hasOne(UnitKerja::className(), ['id' => 'id_pengirim']);
+    }
+    
+    public function getStatusAkses() {
+        return $this->hasOne(StatusAkses::className(), ['id' => 'status_akses']);
     }
 
     public static function maxIdSurat($tglSurat) {

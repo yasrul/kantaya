@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use app\models\Model;
 use app\models\Surat;
+use app\models\search\SuratSearch;
 use app\models\Register;
 use app\models\search\RegisterSearch;
 use app\models\TujuanSurat;
@@ -46,8 +47,8 @@ class SuratMasukController extends Controller
     }
     
     public function actionIndex() {
-        $searchModel = new RegisterSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new SuratSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'in');
 
         return $this->render('index', [
             'searchModel' => $searchModel,

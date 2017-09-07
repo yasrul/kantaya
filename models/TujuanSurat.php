@@ -13,6 +13,7 @@ use Yii;
  * @property string $penerima_manual
  * @property string $alamat_manual
  * @property integer $status_tujuan
+ * @property integer $status_baca
  */
 class TujuanSurat extends \yii\db\ActiveRecord
 {
@@ -31,7 +32,7 @@ class TujuanSurat extends \yii\db\ActiveRecord
     {
         return [
             //[['id_surat', 'status'], 'required'],
-            [['id_surat', 'id_penerima', 'status_tujuan'], 'integer'],
+            [['id_surat', 'id_penerima', 'status_tujuan', 'status_baca'], 'integer'],
             [['penerima_manual', 'alamat_manual'], 'string', 'max' => 255],
             [['id'], 'safe'],
         ];
@@ -49,6 +50,7 @@ class TujuanSurat extends \yii\db\ActiveRecord
             'penerima_manual' => 'Penerima Manual',
             'alamat_manual' => 'Alamat Manual',
             'status_tujuan' => 'Status Tujuan',
+            'status_baca' => 'Status Baca',
         ];
     }
     
