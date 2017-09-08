@@ -69,10 +69,13 @@ class SuratMasukController extends Controller
      */
     public function actionCreate() {
         $modelSurat = new Surat();
+        $modelSurat->tujuan = new TujuanSurat();
         if ($modelSurat->load(Yii::$app->request->post())) {
             $transaction = Yii::$app->db->beginTransaction();
             try {
-                $modelSurat->tujuan = Yii::$app->request->post('TujuanSurat', []);
+                $modelSurat->tujuan = Yii::$app->request->post('TujuanSurat');
+                $modelSurat->tujuan->id_penerima = Yii::$app->user->identity->unit_id;
+                
                 if ($modelSurat->save()) {
                     $transaction->commit();
                     return $this->redirect(['view', 'id' => $modelSurat->id]);

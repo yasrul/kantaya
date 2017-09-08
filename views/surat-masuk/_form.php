@@ -32,6 +32,14 @@ use app\models\UnitKerja;
         ],
         'removeButton' => false
     ]) ?>
+    <?= $form->field($modelSurat->tujuan, 'tgl_diterima')->widget(DatePicker::className(), [
+        'options' => ['placeholder' => '[ Tanggal Diterima ]', 'style' => 'width : 300px'],
+        'pluginOptions' => [
+            'autoclose' => TRUE,
+            'format' => 'yyyy-mm-dd'
+        ],
+        'removeButton' => false
+    ]) ?>
     <?= $form->field($modelSurat, 'perihal')->textarea(['row'=>'2', 'style'=>'width : 500px']) ?>
     <?= $form->field($modelSurat, 'lampiran')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
     <?= $form->field($modelSurat, 'kecepatan_sampai')->dropDownList(KecepatanSampai::listKecepatan(), [
@@ -62,6 +70,7 @@ use app\models\UnitKerja;
         ]
     ]) ?>
     
+    <!--
     <div class="form-group">
         <?= GridInput::widget([
             'allModels' => $modelSurat->tujuan,
@@ -77,7 +86,7 @@ use app\models\UnitKerja;
         ]); ?>
     
     </div>
-    
+    -->
       
     <div class="form-group">
         <?= Html::submitButton($modelSurat->isNewRecord ? 'Create' : 'Update', ['class'=>$modelSurat->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

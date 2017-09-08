@@ -77,6 +77,30 @@
        
     }
 
+public function actionCreate() {
+        $modelSurat = new Surat();
+        if ($modelSurat->load(Yii::$app->request->post())) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $modelSurat->tujuan = Yii::$app->request->post('TujuanSurat', []);
+                $modelSurat->tujuan->id_penerima = Yii::$app->user->identity->unit_id;
+                
+                if ($modelSurat->save()) {
+                    $transaction->commit();
+                    return $this->redirect(['view', 'id' => $modelSurat->id]);
+                }
+                $transaction->rollBack();
+            } catch (Exception $ex) {
+                $transaction->rollBack();
+                throw $ex;
+            }
+        } else {
+            return $this->render('create', [
+                'modelSurat' => $modelSurat,
+            ]);
+        }      
+    }
+
 //class TujuanSurat extends \yii\db\ActiveRecord
 
 public function rules()
