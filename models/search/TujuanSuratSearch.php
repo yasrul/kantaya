@@ -62,7 +62,7 @@ class TujuanSuratSearch extends TujuanSurat
             'id' => $this->id,
             'id_surat' => $this->id_surat,
             'id_penerima' => $this->id_penerima,
-            'status_tujuan' => $this->status,
+            'status_tujuan' => $this->status_tujuan,
         ]);
 
         $query->andFilterWhere(['like', 'penerima_manual', $this->penerima_manual])

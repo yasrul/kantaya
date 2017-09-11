@@ -1,6 +1,6 @@
 //SuratMasukController
 	
-	public function actionCreate() {
+    public function actionCreate() {
         $modelSurat = new Surat();
         $modelTujuan = [new TujuanSurat];
         $modelRegister = [new Register];

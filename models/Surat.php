@@ -48,6 +48,16 @@ class Surat extends \yii\db\ActiveRecord
         ];
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => 'mdm\behaviors\ar\ExtendedBehavior',
+                'relationClass' => TujuanSurat::className(),
+                'relationKey' => ['id' => 'id_surat'],
+            ],
+        ];
+    }
     /**
      * @inheritdoc
      */

@@ -7,8 +7,9 @@ use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use wbraganca\dynamicform\DynamicFormWidget;
-use mdm\widgets\GridInput;
+use mdm\widgets\TabularInput;
 
+use app\models\TujuanSurat;
 use app\models\KecepatanSampai;
 use app\models\TingkatKeamanan;
 use app\models\UnitKerja;
@@ -21,7 +22,7 @@ use app\models\UnitKerja;
 
 ?>
 
-<div class="surat-masuk-form">
+<div class="surat-keluar-form">
     <?php $form = ActiveForm::begin(['id' => 'surat-masuk-form']); ?>
     <?= $form->field($modelSurat, 'no_surat')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
     <?= $form->field($modelSurat, 'tgl_surat')->widget(DatePicker::className(), [
@@ -32,7 +33,7 @@ use app\models\UnitKerja;
         ],
         'removeButton' => false
     ]) ?>
-    <?= $form->field($modelTujuan, 'tgl_diterima')->widget(DatePicker::className(), [
+    <?= $form->field($modelSurat, 'tgl_diterima')->widget(DatePicker::className(), [
         'options' => ['placeholder' => '[ Tanggal Diterima ]', 'style' => 'width : 300px'],
         'pluginOptions' => [
             'autoclose' => TRUE,
@@ -70,23 +71,29 @@ use app\models\UnitKerja;
         ]
     ]) ?>
     
-    <!--
-    <div class="form-group">
-        <?= GridInput::widget([
+    <table class="table">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th><a id="btn-add"><span class="glypicon glypicon-plus"></span></a></th>
+            </tr>
+        </thead>
+    <?= 
+        TabularInput::widget([
+            'id' => 'detail-grid',
             'allModels' => $modelSurat->tujuan,
-            'model' => \app\models\TujuanSurat::className(),
+            'model' => TujuanSurat::className(),
+            'tag' => 'tbody',
             'form' => $form,
-            'options'=>['style'=>'width: 50%'],
-            'columns' => [
-                ['class' => 'mdm\widgets\SerialColumn', 'contentOptions'=>['style'=>'width:5%']],
-                'id_penerima',
-                ['class' => 'mdm\widgets\ButtonColumn']
-            ],
-            'hiddens' => ['id']
-        ]); ?>
-    
-    </div>
-    -->
+            'itemOptions' => ['tag' => 'tr'],
+            'itemView' => '_item_detil',
+            'clientOptions' => [
+            'btnAddSelector' => '#btn-add',
+            ]
+        ]);
+    ?>
+    </table>
       
     <div class="form-group">
         <?= Html::submitButton($modelSurat->isNewRecord ? 'Create' : 'Update', ['class'=>$modelSurat->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

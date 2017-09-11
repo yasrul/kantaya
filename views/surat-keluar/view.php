@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Masuk', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="surat-masuk-view">
+<div class="surat-keluar-view">
     <h1><?= Html::encode($this->title) ?></h1>
     
     <p>
