@@ -12,7 +12,7 @@ use app\models\Surat;
 use app\models\search\SuratSearch;
 //use app\models\Register;
 //use app\models\search\RegisterSearch;
-//use app\models\TujuanSurat;
+use app\models\TujuanSurat;
 
 /**
  * Description of SuratMasukController
@@ -69,26 +69,24 @@ class SuratMasukController extends Controller
      */
     public function actionCreate() {
         $modelSurat = new Surat();
-        $modelTujuan = [new TujuanSurat];
+        $modelTujuan = new TujuanSurat();
      
-        if ($modelSurat->load(Yii::$app->request->post())) {
-            $modelTujuan = Model::createMultiple(TujuanSurat::className());
-            Model::loadMultiple($modelTujuan, Yii::$app->request->post());
-            //assign default id_surat
-            foreach ($modelTujuan as $tujuan) {
-                $tujuan->id_surat = 0;
-            }
+        if ($modelSurat->load(Yii::$app->request->post()) && $modelTujuan->load(Yii::$app->request->post())) {
+            
+            
+                $modelTujuan->id_surat = 0;
+            
             // ajax validation
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ArrayHelper::merge(
-                    ActiveForm::validateMultiple($modelTujuan),
+                    ActiveForm::validate($modelTujuan),
                     ActiveForm::validate($modelSurat)
                 );
             }
             // validate all models
             $valid1 = $modelSurat->validate();
-            $valid2 = Model::validateMultiple($modelTujuan);
+            $valid2 = $modelTujuan->validate();
             $valid = $valid1 && $valid2;
             
             if ($valid) {
@@ -98,13 +96,13 @@ class SuratMasukController extends Controller
                     // simpan master record                   
                     if ($flag = $modelSurat->save(false)) {
                         // simpan details record
-                        foreach ($modelTujuan as $tujuan) {
-                            $tujuan->id_surat = $modelSurat->id;
-                            if (! ($flag = $tujuan->save(false))) {
+                      
+                            $modelTujuan->id_surat = $modelSurat->id;
+                            $modelTujuan->id_penerima = Yii::$app->user->identity->unit_id;
+                            if (! ($flag = $modelTujuan->save(false))) {
                                 $transaction->rollBack();
-                                break;
                             }
-                        }
+                        
                     }
                     if ($flag) {
                         // sukses, commit database transaction
