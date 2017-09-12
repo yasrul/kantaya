@@ -34,7 +34,7 @@ class TujuanSurat extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            //[['id_surat', 'status'], 'required'],
+            [['id_surat'], 'required'],
             [['id_surat', 'id_penerima', 'status_tujuan', 'status_baca'], 'integer'],
             [['penerima_manual', 'alamat_manual'], 'string', 'max' => 255],
             [['id', 'tgl_diterima', 'tgl_diteruskan'], 'safe'],

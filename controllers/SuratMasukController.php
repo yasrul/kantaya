@@ -74,7 +74,7 @@ class SuratMasukController extends Controller
         if ($modelSurat->load(Yii::$app->request->post()) && $modelTujuan->load(Yii::$app->request->post())) {
             
             
-                $modelTujuan->id_surat = 0;
+            $modelTujuan->id_surat = 0;
             
             // ajax validation
             if (Yii::$app->request->isAjax) {
