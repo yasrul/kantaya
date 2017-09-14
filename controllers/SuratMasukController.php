@@ -72,37 +72,28 @@ class SuratMasukController extends Controller
         $modelTujuan = new TujuanSurat();
      
         if ($modelSurat->load(Yii::$app->request->post()) && $modelTujuan->load(Yii::$app->request->post())) {
-            
-            
+                      
             $modelTujuan->id_surat = 0;
-            
-            // ajax validation
-            if (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ArrayHelper::merge(
-                    ActiveForm::validate($modelTujuan),
-                    ActiveForm::validate($modelSurat)
-                );
-            }
+
             // validate all models
             $valid1 = $modelSurat->validate();
             $valid2 = $modelTujuan->validate();
             $valid = $valid1 && $valid2;
             
             if ($valid) {
+                
                 // mulai database transaction
-                $transaction = \Yii::$app->db->beginTransaction();
+                $transaction = Yii::$app->db->beginTransaction();
                 try {
                     // simpan master record                   
                     if ($flag = $modelSurat->save(false)) {
                         // simpan details record
-                      
+                        
                             $modelTujuan->id_surat = $modelSurat->id;
                             $modelTujuan->id_penerima = Yii::$app->user->identity->unit_id;
                             if (! ($flag = $modelTujuan->save(false))) {
                                 $transaction->rollBack();
-                            }
-                        
+                            }                        
                     }
                     if ($flag) {
                         // sukses, commit database transaction
@@ -131,7 +122,7 @@ class SuratMasukController extends Controller
         } else {
             // inisialisai id 
             // diperlukan untuk form master-detail
-            $modelSurat->id = 0;
+            //$modelSurat->id = 0;
             // render view
             return $this->render('create', [
                 'modelSurat' => $modelSurat,
