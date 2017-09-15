@@ -80,8 +80,7 @@ class SuratMasukController extends Controller
             $valid2 = $modelTujuan->validate();
             $valid = $valid1 && $valid2;
             
-            if ($valid) {
-                
+            if ($valid) {               
                 // mulai database transaction
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
@@ -117,12 +116,8 @@ class SuratMasukController extends Controller
                     'modelTujuan' => $modelTujuan,
                     'error' => 'valid1: '.print_r($valid1,true).' - valid2: '.print_r($valid2,true),
                 ]);
-            }
-           
+            }         
         } else {
-            // inisialisai id 
-            // diperlukan untuk form master-detail
-            //$modelSurat->id = 0;
             // render view
             return $this->render('create', [
                 'modelSurat' => $modelSurat,
@@ -134,24 +129,58 @@ class SuratMasukController extends Controller
     
     public function actionUpdate($id) {
         $modelSurat = $this->findModel($id);
-        
-        if ($modelSurat->load(Yii::$app->request->post())) {
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                $modelSurat->tujuan = Yii::$app->request->post('TujuanSurat', []);
-                if ($modelSurat->save()) {
-                    $transaction->commit();
-                    return $this->redirect(['view', 'id' => $modelSurat->id]);
+        $modelTujuan = TujuanSurat::find()->where(['id_surat' => $modelSurat->id, 'id_penerima' => Yii::$app->user->identity->unit_id])->one();
+     
+        if ($modelSurat->load(Yii::$app->request->post()) && $modelTujuan->load(Yii::$app->request->post())) {
+                      
+            $modelTujuan->id_surat = $modelSurat->id;
+
+            // validate all models
+            $valid1 = $modelSurat->validate();
+            $valid2 = $modelTujuan->validate();
+            $valid = $valid1 && $valid2;
+            
+            if ($valid) {             
+                // mulai database transaction
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    // simpan master record                   
+                    if ($flag = $modelSurat->save(false)) {
+                        // simpan details record                      
+                            $modelTujuan->id_surat = $modelSurat->id;
+                            $modelTujuan->id_penerima = Yii::$app->user->identity->unit_id;
+                            if (! ($flag = $modelTujuan->save(false))) {
+                                $transaction->rollBack();
+                            }                        
+                    }
+                    if ($flag) {
+                        // sukses, commit database transaction
+                        // kemudian tampilkan hasilnya
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $modelSurat->id]);
+                    } else {
+                        return $this->render('create', [
+                            'modelSurat' => $modelSurat,
+                            'modelTujuan' => $modelTujuan,
+                        ]);
+                    }
+                } catch (Exception $e) {
+                    // penyimpanan gagal, rollback database transaction
+                    $transaction->rollBack();
+                    throw $e;
                 }
-                $transaction->rollBack();
-                
-            } catch (Exception $ex) {
-                $transaction->rollBack();
-                throw $ex;
-            }
-        } else {
-            return $this->render('update', [
-                'modelSurat' => $modelSurat
+            } else {
+                return $this->render('create', [
+                    'modelSurat' => $modelSurat,
+                    'modelTujuan' => $modelTujuan,
+                    'error' => 'valid1: '.print_r($valid1,true).' - valid2: '.print_r($valid2,true),
+                ]);
+            }         
+        } else {            
+            // render view
+            return $this->render('create', [
+                'modelSurat' => $modelSurat,
+                'modelTujuan' => $modelTujuan,
             ]);
         }
     }

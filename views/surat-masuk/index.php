@@ -24,9 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
+            'no_surat',
             'id_pengirim',
-            'tgl_surat',
+            ['attribute'=>'tgl_surat', 'contentOptions'=>['style'=>'width : 10%']],
             'perihal',
 
             ['class' => 'yii\grid\ActionColumn'],
