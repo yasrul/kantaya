@@ -40,7 +40,7 @@ class Surat extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_surat', 'tgl_surat', 'perihal'], 'required'],
+            [['id_dari','no_surat', 'tgl_surat', 'perihal'], 'required'],
             [['tgl_surat'], 'safe'],
             [['kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim','status_akses'], 'integer'],
             [['no_surat', 'perihal', 'file_arsip', 'alamat_manual'], 'string', 'max' => 255],
@@ -55,6 +55,7 @@ class Surat extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'id_dari' => 'Dari',
             'no_surat' => 'No Surat',
             'tgl_surat' => 'Tgl Surat',
             'perihal' => 'Perihal',

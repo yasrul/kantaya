@@ -18,7 +18,7 @@ class SuratSearch extends Surat
     public function rules()
     {
         return [
-            [['id', 'kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim', 'status_akses'], 'integer'],
+            [['id','id_dari','kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim', 'status_akses'], 'integer'],
             [['no_surat', 'tgl_surat', 'perihal', 'lampiran', 'file_arsip', 'pengirim_manual', 'alamat_manual'], 'safe'],
         ];
     }
@@ -44,7 +44,7 @@ class SuratSearch extends Surat
         if ($inout == 'in') {
             $query = Surat::find()->where(['tujuan_surat.id_penerima' => Yii::$app->user->identity->unit_id])->orderBy('tgl_surat Asc')->joinWith(['tujuan']);
         } elseif ($inout == 'out') {
-            $query = Surat::find()->where(['id_pengirim' => Yii::$app->user->identity->unit_id])->orderBy('tgl_surat Asc')->joinWith(['tujuan_surat']);
+            $query = Surat::find()->where(['id_pengirim' => Yii::$app->user->identity->unit_id])->orderBy('tgl_surat Asc')->joinWith(['tujuan']);
         }
 
         // add conditions that should always apply here
@@ -64,6 +64,7 @@ class SuratSearch extends Surat
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'id_dari' => $this->id_dari,
             'tgl_surat' => $this->tgl_surat,
             'kecepatan_sampai' => $this->kecepatan_sampai,
             'tingkat_keamanan' => $this->tingkat_keamanan,

@@ -23,6 +23,11 @@ use app\models\UnitKerja;
 
 <div class="surat-masuk-form">
     <?php $form = ActiveForm::begin(['id' => 'surat-masuk-form']); ?>
+    <?= $form->field($modelSurat, 'id_dari')->widget(Select2::className(), [
+        'data' => UnitKerja::listUnit(1),
+        'options' => ['placeholder' => '[ Surat Dari... ]'],
+        'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
+    ]) ?>
     <?= $form->field($modelSurat, 'no_surat')->textInput(['maxLength'=>true, 'style'=>'width : 500px']) ?>
     <?= $form->field($modelSurat, 'tgl_surat')->widget(DatePicker::className(), [
         'options' => ['placeholder' => '[ Tanggal Surat ]', 'style' => 'width : 300px'],

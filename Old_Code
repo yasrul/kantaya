@@ -114,7 +114,7 @@ public function rules()
 
 
 // _form Surat Masuk
-<div class="panel panel-default">
+    <div class="panel panel-default">
         <div class="panel-heading"><h5><i class="glyphicon glyphicon-th-list"></i> Tujuan Surat</h5></div>
         <div class="panel-body">
              <?php DynamicFormWidget::begin([
@@ -182,3 +182,29 @@ public function rules()
             <?php DynamicFormWidget::end(); ?>
         </div>
     </div>
+
+//Form Surat Keluar
+   
+    <table class="table">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th><a id="btn-add"><span class="glypicon glypicon-plus"></span></a></th>
+            </tr>
+        </thead>
+    <?= 
+        TabularInput::widget([
+            'id' => 'detail-grid',
+            'allModels' => $modelSurat->tujuan,
+            'model' => TujuanSurat::className(),
+            'tag' => 'tbody',
+            'form' => $form,
+            'itemOptions' => ['tag' => 'tr'],
+            'itemView' => '_item_detil',
+            'clientOptions' => [
+            'btnAddSelector' => '#btn-add',
+            ]
+        ]);
+    ?>
+    </table>

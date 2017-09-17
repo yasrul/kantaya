@@ -9,7 +9,7 @@ use yii\grid\GridView;
 /* @var $modelSurat app\models\Surat */
 
 $this->title = $modelSurat->id;
-$this->params['breadcrumbs'][] = ['label' => 'Surat Masuk', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Surat Keluar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

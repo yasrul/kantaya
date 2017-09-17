@@ -49,7 +49,7 @@ class TujuanSurat extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_surat' => 'Id Surat',
-            'id_penerima' => 'Id Penerima',
+            'id_penerima' => 'Penerima',
             'penerima_manual' => 'Penerima Manual',
             'alamat_manual' => 'Alamat Manual',
             'status_tujuan' => 'Status Tujuan',

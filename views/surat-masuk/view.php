@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?= GridView::widget([
         'dataProvider' => new yii\data\ActiveDataProvider([
-            'query' => $modelSurat->getTujuan(),
+            'query' => $modelSurat->getTujuan()->where(['id_penerima' => Yii::$app->user->identity->unit_id]),
             'pagination' => false,
         ]),
         'columns' => [
