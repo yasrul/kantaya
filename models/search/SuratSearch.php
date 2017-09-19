@@ -12,6 +12,8 @@ use app\models\Surat;
  */
 class SuratSearch extends Surat
 {
+    public $pengirim;
+    public $dari;
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class SuratSearch extends Surat
     {
         return [
             [['id','id_dari','kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim', 'status_akses'], 'integer'],
-            [['no_surat', 'tgl_surat', 'perihal', 'lampiran', 'file_arsip', 'pengirim_manual', 'alamat_manual'], 'safe'],
+            [['no_surat', 'tgl_surat','dari', 'perihal', 'lampiran', 'file_arsip','pengirim', 'pengirim_manual', 'alamat_manual'], 'safe'],
         ];
     }
 
@@ -64,7 +66,7 @@ class SuratSearch extends Surat
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_dari' => $this->id_dari,
+            //'id_dari' => $this->id_dari,
             'tgl_surat' => $this->tgl_surat,
             'kecepatan_sampai' => $this->kecepatan_sampai,
             'tingkat_keamanan' => $this->tingkat_keamanan,
@@ -74,8 +76,10 @@ class SuratSearch extends Surat
 
         $query->andFilterWhere(['like', 'no_surat', $this->no_surat])
             ->andFilterWhere(['like', 'perihal', $this->perihal])
+            ->andFilterWhere(['like','unit_kerja.unit_kerja', $this->dari])
             ->andFilterWhere(['like', 'lampiran', $this->lampiran])
             ->andFilterWhere(['like', 'file_arsip', $this->file_arsip])
+            ->andFilterWhere(['like', 'unit_kerja.unit_kerja', $this->pengirim])
             ->andFilterWhere(['like', 'pengirim_manual', $this->pengirim_manual])
             ->andFilterWhere(['like', 'alamat_manual', $this->alamat_manual]);
 

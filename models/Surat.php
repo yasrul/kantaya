@@ -63,7 +63,7 @@ class Surat extends \yii\db\ActiveRecord
             'kecepatan_sampai' => 'Kecepatan Sampai',
             'tingkat_keamanan' => 'Tingkat Keamanan',
             'file_arsip' => 'File Arsip',
-            'id_pengirim' => 'Id Pengirim',
+            'id_pengirim' => 'Pengirim',
             'pengirim_manual' => 'Pengirim Manual',
             'alamat_manual' => 'Alamat Manual',
             'status_akses' => 'Status Akses',
@@ -96,6 +96,10 @@ class Surat extends \yii\db\ActiveRecord
 
     public function getPengirim() {
         return $this->hasOne(UnitKerja::className(), ['id' => 'id_pengirim']);
+    }
+    
+    public function getDari() {
+        return $this->hasOne(UnitKerja::className(), ['id' => 'id_dari']);
     }
     
     public function getStatusAkses() {

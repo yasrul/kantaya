@@ -51,12 +51,13 @@ use app\models\UnitKerja;
     ]) ?>
     
     <?= $form->field($modelSurat, 'file_arsip')->textInput() ?>
+    <!--
     <?= $form->field($modelSurat, 'id_pengirim')->widget(Select2::className(), [
         'data' => UnitKerja::listUnit(1),
         'options' => ['placeholder' => '[ Pilih Pengirim ]'],
         'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
     ]) ?>
-    
+    -->
     <div class="panel panel-default">
         <div class="panel-heading"><h5><i class="glyphicon glyphicon-th-list"></i> Tujuan Surat</h5></div>
         <div class="panel-body">

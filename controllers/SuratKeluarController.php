@@ -70,6 +70,8 @@ class SuratKeluarController extends Controller {
         $modelTujuan = [new TujuanSurat];
      
         if ($modelSurat->load(Yii::$app->request->post())) {
+            $modelSurat->id_pengirim = Yii::$app->user->identity->unit_id;
+            
             $modelTujuan = Model::createMultiple(TujuanSurat::className());
             Model::loadMultiple($modelTujuan, Yii::$app->request->post());
             //assign default id_surat
