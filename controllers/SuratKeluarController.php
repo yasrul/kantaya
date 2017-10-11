@@ -54,7 +54,11 @@ class SuratKeluarController extends Controller {
         ]);
     }
     
-    public function actionView($id) {
+    public function actionIndexDispo() {
+        
+    }
+
+        public function actionView($id) {
         return $this->render('view', [
             'modelSurat' => $this->findModel($id),
         ]);
@@ -170,8 +174,9 @@ class SuratKeluarController extends Controller {
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
+    
 
-        protected function findModel($id) {
+    protected function findModel($id) {
         if (($model = Surat::findOne($id)) !== NULL) {
             return $model;
         } else {

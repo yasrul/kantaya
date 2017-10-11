@@ -5,20 +5,22 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "disposisi_det".
+ * This is the model class for table "disposisi_tujuan".
  *
+ * @property integer $id
  * @property integer $id_disposisi
  * @property integer $id_penerima
  * @property string $tgl_diterima
+ * @property string $keterangan
  */
-class DisposisiDet extends \yii\db\ActiveRecord
+class DisposisiTujuan extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'disposisi_det';
+        return 'disposisi_tujuan';
     }
 
     /**
@@ -27,9 +29,10 @@ class DisposisiDet extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['id', 'id_disposisi', 'id_penerima'], 'integer'],
             [['id_disposisi', 'id_penerima'], 'required'],
-            [['id_disposisi', 'id_penerima'], 'integer'],
             [['tgl_diterima'], 'safe'],
+            [['keterangan'], 'string', 'max' => 500],
         ];
     }
 
@@ -39,9 +42,11 @@ class DisposisiDet extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'ID',
             'id_disposisi' => 'Id Disposisi',
             'id_penerima' => 'Id Penerima',
             'tgl_diterima' => 'Tgl Diterima',
+            'keterangan' => 'Keterangan',
         ];
     }
 }

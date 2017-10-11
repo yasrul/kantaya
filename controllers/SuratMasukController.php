@@ -7,8 +7,9 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
-use app\models\Model;
+//use app\models\Model;
 use app\models\Surat;
+use app\models\Disposisi;
 use app\models\search\SuratSearch;
 //use app\models\Register;
 //use app\models\search\RegisterSearch;
@@ -56,7 +57,11 @@ class SuratMasukController extends Controller
         ]);
     }
     
-    public function actionView($id) {
+    public function actionIndexDispo() {
+        
+    }
+
+        public function actionView($id) {
         return $this->render('view', [
             'modelSurat' => $this->findModel($id),
         ]);
@@ -127,7 +132,24 @@ class SuratMasukController extends Controller
        
     }
     
-    public function actionUpdate($id) {
+    public function actionCreateDispo($id) {
+        $modelSurat = $this->findModel($id);
+        $modelDispo = new Disposisi;
+        
+        if ($modelDispo->load(Yii::$app->request->post())) {
+            $modelDispo->id_surat = $modelSurat->id;
+            $modelDispo->id_pemberi = Yii::$app->user->id;
+            if ($modelDispo->save()) {
+                return $this->redirect(['view', 'id'=> $id]);
+            }
+        } else {
+            return $this->render('create-dispo', [
+                'modelDispo' => $modelDispo,
+            ]);
+        }
+    }
+
+        public function actionUpdate($id) {
         $modelSurat = $this->findModel($id);
         $modelTujuan = TujuanSurat::find()->where(['id_surat' => $modelSurat->id, 'id_penerima' => Yii::$app->user->identity->unit_id])->one();
      

@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "disposisi".
  *
  * @property integer $id
- * @property integer $id_regin
+ * @property integer $id_surat
  * @property integer $id_pemberi
  * @property string $tgl_disposisi
  * @property string $tgl_selesai
@@ -31,8 +31,8 @@ class Disposisi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_regin', 'id_pemberi', 'tgl_disposisi', 'id_intruksi'], 'required'],
-            [['id_regin', 'id_pemberi', 'id_intruksi'], 'integer'],
+            [['id_surat', 'id_pemberi', 'tgl_disposisi', 'id_intruksi'], 'required'],
+            [['id_surat', 'id_pemberi', 'id_intruksi'], 'integer'],
             [['tgl_disposisi', 'tgl_selesai'], 'safe'],
             [['pesan'], 'string', 'max' => 255],
         ];
@@ -45,12 +45,16 @@ class Disposisi extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_regin' => 'Id Regin',
+            'id_surat' => 'Id Surat',
             'id_pemberi' => 'Id Pemberi',
             'tgl_disposisi' => 'Tgl Disposisi',
             'tgl_selesai' => 'Tgl Selesai',
             'id_intruksi' => 'Id Intruksi',
             'pesan' => 'Pesan',
         ];
+    }
+    
+    public function getDispoTujuan() {
+        return $this->hasMany(DisposisiTujuan::className(), ['id_disposisi' => 'id']);
     }
 }
