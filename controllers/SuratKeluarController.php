@@ -121,10 +121,10 @@ class SuratKeluarController extends Controller {
                             'modelTujuan' => $modelTujuan,
                         ]);
                     }
-                } catch (Exception $e) {
+                } catch (Exception $ex) {
                     // penyimpanan gagal, rollback database transaction
                     $transaction->rollBack();
-                    throw $e;
+                    throw $ex;
                 }
             } else {
                 return $this->render('create', [

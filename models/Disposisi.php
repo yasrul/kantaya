@@ -31,10 +31,10 @@ class Disposisi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_surat', 'id_pemberi', 'tgl_disposisi', 'id_intruksi'], 'required'],
+            [['id_surat', 'id_pemberi', 'tgl_disposisi'], 'required'],
             [['id_surat', 'id_pemberi', 'id_intruksi'], 'integer'],
             [['tgl_disposisi', 'tgl_selesai'], 'safe'],
-            [['pesan'], 'string', 'max' => 255],
+            [['pesan'], 'string', 'max' => 500],
         ];
     }
 

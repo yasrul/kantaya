@@ -6,14 +6,16 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
-//use app\models\Model;
+use app\models\Model;
 use app\models\Surat;
 use app\models\Disposisi;
 use app\models\search\SuratSearch;
 //use app\models\Register;
 //use app\models\search\RegisterSearch;
 use app\models\TujuanSurat;
+use app\models\DisposisiTujuan;
 
 /**
  * Description of SuratMasukController
@@ -135,16 +137,75 @@ class SuratMasukController extends Controller
     public function actionCreateDispo($id) {
         $modelSurat = $this->findModel($id);
         $modelDispo = new Disposisi;
+        $modelDispoTujuan = [new DisposisiTujuan];
         
         if ($modelDispo->load(Yii::$app->request->post())) {
             $modelDispo->id_surat = $modelSurat->id;
             $modelDispo->id_pemberi = Yii::$app->user->id;
-            if ($modelDispo->save()) {
-                return $this->redirect(['view', 'id'=> $id]);
+            
+            $modelDispoTujuan = Model::createMultiple(DisposisiTujuan::className());
+            Model::loadMultiple($modelDispoTujuan, Yii::$app->request->post());
+            foreach ($modelDispoTujuan as $dispoTujuan) {
+                $dispoTujuan->id_disposisi = 0;
             }
+            //ajax validation
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::Format_JSON;
+                return ArrayHelper::merge(ActiveForm::validateMultiple($modelDispoTujuan),
+                    ActiveForm::validate($modelDispo)
+                );
+            }
+            //validate all model
+            $valid1 = $modelDispo->validate();
+            $valid2 = Model::validateMultiple($modelDispoTujuan);
+            $valid = $valid1 && $valid2;
+            
+            if ($valid) {
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    //simpan master record
+                    if ($flag = $modelDispo->save(false)) {
+                        //simpan detil record
+                        foreach ($modelDispoTujuan as $dispoTujuan) {
+                            $dispoTujuan->id_disposisi = $modelDispo->id;
+                            if ( ! ($flag = $dispoTujuan->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        //sukses, commit transaction
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $modelSurat->id]);
+                    } else {
+                        return $this->render('create-dispo', [
+                            'modelDispo' => $modelDispo,
+                            'modelDispoTujuan' => $modelDispoTujuan,
+                            'id_surat' => $modelSurat->id,
+                        ]);
+                    }
+                    
+                } catch (Exception $ex) {
+                    //penyimpanan gagal, rollback transaction
+                    $transaction->rollBack();
+                    throw $ex;
+                }
+            } else {
+                return $this->render('create-dispo', [
+                    'modelDispo' => $modelDispo,
+                    'modelDispoTujuan' => $modelDispoTujuan,
+                    'id_surat' => $modelSurat->id,
+                    'error' => 'valid1: '.print_r($valid1,true).' - valid2: '.print_r($valid2,true),
+                ]);
+            }
+            
         } else {
+            $modelDispo->id = 0;
             return $this->render('create-dispo', [
                 'modelDispo' => $modelDispo,
+                'modelDispoTujuan' => $modelDispoTujuan,
+                'id_surat' => $modelSurat->id,
             ]);
         }
     }

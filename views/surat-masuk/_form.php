@@ -7,7 +7,6 @@ use kartik\date\DatePicker;
 use kartik\select2\Select2;
 //use yii\helpers\ArrayHelper;
 //use wbraganca\dynamicform\DynamicFormWidget;
-use mdm\widgets\GridInput;
 
 use app\models\KecepatanSampai;
 use app\models\TingkatKeamanan;
@@ -74,24 +73,6 @@ use app\models\UnitKerja;
             ]
         ]
     ]) ?>
-    
-    <!--
-    <div class="form-group">
-        <?= GridInput::widget([
-            'allModels' => $modelSurat->tujuan,
-            'model' => \app\models\TujuanSurat::className(),
-            'form' => $form,
-            'options'=>['style'=>'width: 50%'],
-            'columns' => [
-                ['class' => 'mdm\widgets\SerialColumn', 'contentOptions'=>['style'=>'width:5%']],
-                'id_penerima',
-                ['class' => 'mdm\widgets\ButtonColumn']
-            ],
-            'hiddens' => ['id']
-        ]); ?>
-    
-    </div>
-    -->
       
     <div class="form-group">
         <?= Html::submitButton($modelSurat->isNewRecord ? 'Create' : 'Update', ['class'=>$modelSurat->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

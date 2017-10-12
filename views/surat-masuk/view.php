@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ]
         ]); ?>
+        <?= Html::a('Disposisi', ['create-dispo', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
     </p>
     
     <?= DetailView::widget([
