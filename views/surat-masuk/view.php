@@ -25,7 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ]
         ]); ?>
-        <?= Html::a('Disposisi', ['create-dispo', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
+        <!--<?= Html::a('Disposisi', ['create-dispo', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>-->
+        <?= Html::a('Disposisi', ['disposisi/create', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
     </p>
     
     <?= DetailView::widget([
@@ -47,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?= GridView::widget([
         'dataProvider' => new yii\data\ActiveDataProvider([
-            'query' => $modelSurat->getTujuan()->where(['id_penerima' => Yii::$app->user->identity->unit_id]),
+            'query' => $modelSurat->getTujuan()->where(['id_penerima' => \Yii::$app->user->identity->unit_id]),
             'pagination' => false,
         ]),
         'columns' => [
@@ -56,6 +57,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'penerima_manual',
             'alamat_manual',
             'status_tujuan',
+        ]
+    ]) ?>
+    
+    <?= GridView::widget([
+        'dataProvider' => new yii\data\ActiveDataProvider([
+            'query' => $modelSurat->getDisposisi(),
+            'pagination' => FALSE
+        ]),
+        'columns' => [
+            'id_pemberi',
+            'tgl_disposisi',
+            'tgl_selesai',
+            'pesan'
         ]
     ]) ?>
 </div>

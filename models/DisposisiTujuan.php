@@ -29,8 +29,8 @@ class DisposisiTujuan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'id_disposisi', 'id_penerima'], 'integer'],
             [['id_disposisi', 'id_penerima'], 'required'],
+            [['id_disposisi', 'id_penerima'], 'integer'],
             [['tgl_diterima'], 'safe'],
             [['keterangan'], 'string', 'max' => 500],
         ];

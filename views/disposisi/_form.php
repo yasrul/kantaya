@@ -2,25 +2,19 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-//use yii\bootstrap\Collapse;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use wbraganca\dynamicform\DynamicFormWidget;
 use app\models\UnitKerja;
 
 /* @var $this yii\web\View */
-/* @var $modelDispo app\models\Disposisi */
-/* @var $modelDispoTujuan app\models\DisposisiTujuan */
-/* @var $id_surat */
-
-$this->title = 'Create Disposisi';
-$this->params['breadcrumbs'][] = ['label'=>'View Surat', 'url'=>['view', 'id' => $id_surat]];
-$this->params['breadcrumbs'][] = $this->title;
+/* @var $model app\models\Disposisi */
+/* @var $form yii\widgets\ActiveForm */
 ?>
-<div class="disposisi-create">
-    <h1><?= Html::encode($this->title)?></h1>
+
+<div class="disposisi-form">
     
-    <?php $form = ActiveForm::begin(['id' => 'disposisi-create-form']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'disposisi-form']); ?>
     <?= $form->field($modelDispo, 'tgl_disposisi')->widget(DatePicker::className(), [
         'options' => ['placeholder' => '[ Tanggal Disposisi ]', 'style' => 'width : 300px'],
         'pluginOptions' => [
@@ -52,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'insertButton' => '.add-item',               // css class
                 'deleteButton' => '.remove-item',            // css class
                 'model' => $modelDispoTujuan[0],
-                'formId' => 'disposisi-create-form',
+                'formId' => 'disposisi-form',
                 'formFields' => [
                     'id_disposisi',
                     'id_penerima',
@@ -100,4 +94,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::submitButton($modelDispo->isNewRecord ? 'Create' : 'Update', ['class'=>$modelDispo->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
     <?php ActiveForm::end(); ?>
+    
+
 </div>

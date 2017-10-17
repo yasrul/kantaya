@@ -63,7 +63,7 @@ class SuratMasukController extends Controller
         
     }
 
-        public function actionView($id) {
+    public function actionView($id) {
         return $this->render('view', [
             'modelSurat' => $this->findModel($id),
         ]);

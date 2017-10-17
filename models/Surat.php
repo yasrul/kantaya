@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 use app\models\KecepatanSampai;
 use app\models\TingkatKeamanan;
+use app\models\Disposisi;
+use app\models\DisposisiTujuan;
 
 /**
  * This is the model class for table "surat".
@@ -104,6 +106,10 @@ class Surat extends \yii\db\ActiveRecord
     
     public function getStatusAkses() {
         return $this->hasOne(StatusAkses::className(), ['id' => 'status_akses']);
+    }
+    
+    public function getDisposisi() {
+        return $this->hasMany(Disposisi::className(), ['id_surat' => 'id']);
     }
 
     public static function maxIdSurat($tglSurat) {

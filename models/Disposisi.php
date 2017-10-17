@@ -54,7 +54,11 @@ class Disposisi extends \yii\db\ActiveRecord
         ];
     }
     
-    public function getDispoTujuan() {
+    public function getSurat() {
+        return $this->hasOne(Surat::className(), ['id' => 'id_surat']);
+    }
+
+    public function getTujuan() {
         return $this->hasMany(DisposisiTujuan::className(), ['id_disposisi' => 'id']);
     }
 }
