@@ -12,6 +12,9 @@ use app\models\Disposisi;
  */
 class DisposisiSearch extends Disposisi
 {
+    public $no_surat;
+    public $tgl_surat;
+    public $perihal;
     /**
      * @inheritdoc
      */
@@ -70,9 +73,13 @@ class DisposisiSearch extends Disposisi
             'tgl_disposisi' => $this->tgl_disposisi,
             'tgl_selesai' => $this->tgl_selesai,
             'id_intruksi' => $this->id_intruksi,
+            'surat.no_surat' => $this->no_surat,
+            'surat.tgl_surat' => $this->tgl_surat
+            
         ]);
 
         $query->andFilterWhere(['like', 'pesan', $this->pesan]);
+        $query->andFilterWhere(['like', 'surat.perihal', $this->perihal]);
 
         return $dataProvider;
     }
