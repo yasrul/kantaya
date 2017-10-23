@@ -30,36 +30,18 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
+                    ['label' => 'Menu Kantaya', 'options' => ['class' => 'header']],
+                    ['label' => 'Surat Masuk', 'icon' => 'file-code-o', 'url' => '#', 'items' => [
+                        ['label' => 'Surat Masuk', 'icon' => 'file-code-o', 'url' => ['surat-masuk/index']],
+                        ['label' => 'Disposisi Masuk', 'icon' => 'file-code-o', 'url' => ['disposisi/index', 'io' => 'in']]
+                    ]],
+                    ['label' => 'Surat Keluar', 'icon' => 'dashboard', 'url' => '#', 'items' => [
+                        ['label' => 'Surat Keluar', 'icon' => 'dashboard', 'url' => ['surat-keluar/index']],
+                        ['label' => 'Disposisi Keluar', 'icon' => 'dashboard', 'url' => ['disposisi/index', 'io' => 'out']]
+                    ]],
+                    ['label' => 'Laporan', 'icon' => 'file-code-o', 'url' => '#'],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    [
-                        'label' => 'Same tools',
-                        'icon' => 'share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
-                            [
-                                'label' => 'Level One',
-                                'icon' => 'circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-                                    [
-                                        'label' => 'Level Two',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
+                    
                 ],
             ]
         ) ?>
