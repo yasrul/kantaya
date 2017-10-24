@@ -3,14 +3,14 @@
 /* @var $this yii\web\View */
 use yii\widgets\Block;
 
-$this->title = 'E-AdminKada';
+$this->title = 'Sel-Biru';
 ?>
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>E-AdminKada</h1>
+        <h1>SEL-BIRU</h1>
 
-        <p class="lead">Sistem Elektronik Administrasi Perkantoran Pemerintah Daerah</p>
+        <p class="lead">Surat Elektronik Biro Umum</p>
         
     </div>
 
