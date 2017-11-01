@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
 use app\models\KecepatanSampai;
 use app\models\TingkatKeamanan;
 use app\models\Disposisi;
@@ -18,16 +19,18 @@ use app\models\DisposisiTujuan;
  * @property string $lampiran
  * @property integer $kecepatan_sampai
  * @property integer $tingkat_keamanan
- * @property string $file_arsip
  * @property integer $id_pengirim
  * @property string $pengirim_manual
  * @property string $alamat_manual
  * @property integer $status_akses
+ * @property string $doc_srcfilename
+ * @property string $doc_appfilename
  * @property TujuanSurat[] $tujuan
  */
 class Surat extends \yii\db\ActiveRecord
 {
-    use \mdm\behaviors\ar\RelationTrait;
+    public $fileup;
+    
     /**
      * @inheritdoc
      */
@@ -47,6 +50,11 @@ class Surat extends \yii\db\ActiveRecord
             [['kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim','status_akses'], 'integer'],
             [['no_surat', 'perihal', 'file_arsip', 'alamat_manual'], 'string', 'max' => 255],
             [['lampiran', 'pengirim_manual'], 'string', 'max' => 100],
+            [['doc_src_filename', 'doc_app_filename'], 'safe'],
+            [['fileup'], 'file', 'extensions' => ['jpg','jpeg','pdf','zip','rar'],
+                'maxSize' => 1024*1024,
+                'skipOnEmpty',
+            ]
         ];
     }
 
@@ -64,11 +72,12 @@ class Surat extends \yii\db\ActiveRecord
             'lampiran' => 'Lampiran',
             'kecepatan_sampai' => 'Kecepatan Sampai',
             'tingkat_keamanan' => 'Tingkat Keamanan',
-            'file_arsip' => 'File Arsip',
             'id_pengirim' => 'Pengirim',
             'pengirim_manual' => 'Pengirim Manual',
             'alamat_manual' => 'Alamat Manual',
             'status_akses' => 'Status Akses',
+            'doc_src_filename' => 'Nama File Sumber',
+            'doc_app_filename' => 'Nama File App',
         ];
     }
     
@@ -127,5 +136,43 @@ class Surat extends \yii\db\ActiveRecord
             $maxId = substr($maxId, 4, 4)+1;
         }
         return $idUnit.$th.sprintf("%04d",$maxId);
+    }
+    
+    public function uploadFile() {
+        $fileup = UploadedFile::getInstance($this, 'fileup');
+        
+        if (!isset($fileup)) {
+            return FALSE;
+        }
+        $this->doc_srcfilename = $fileup->name;
+        $ext = end((explode(".", $fileup->name)));
+        $this->doc_appfilename = $this->id.".{$ext}";
+        
+        return $fileup;       
+    }
+    
+    public function getPathFile() {
+        return isset($this->doc_appfilename) ? Yii::getAlias('@app/docfile/').$this->doc_appfilename : null;
+    }
+    
+    public function getUrlFile() {
+        return isset($this->doc_appfilename) ? Yii::$app->params['uploadUrl'].$this->doc_appfilename : null;
+    }
+    
+    public function deleteFile() {
+        $file = $this->getPathFile();
+        
+        if(empty($file) || !file_exists($file)) {
+            return FALSE;
+        }
+        
+        if(!unlink($file)) {
+            return FALSE;
+        }
+        
+        $this->doc_srcfilename = null;
+        $this->doc_appfilename = NULL;
+        
+        return true;
     }
 }
