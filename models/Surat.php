@@ -48,12 +48,12 @@ class Surat extends \yii\db\ActiveRecord
             [['id_dari','no_surat', 'tgl_surat', 'perihal'], 'required'],
             [['tgl_surat'], 'safe'],
             [['kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim','status_akses'], 'integer'],
-            [['no_surat', 'perihal', 'file_arsip', 'alamat_manual'], 'string', 'max' => 255],
+            [['no_surat', 'perihal', 'doc_srcfilename', 'doc_appfilename', 'alamat_manual'], 'string', 'max' => 255],
             [['lampiran', 'pengirim_manual'], 'string', 'max' => 100],
-            [['doc_src_filename', 'doc_app_filename'], 'safe'],
+            [['doc_srcfilename', 'doc_appfilename'], 'safe'],
             [['fileup'], 'file', 'extensions' => ['jpg','jpeg','pdf','zip','rar'],
                 'maxSize' => 1024*1024,
-                'skipOnEmpty',
+                'skipOnEmpty' => TRUE,
             ]
         ];
     }
@@ -78,6 +78,7 @@ class Surat extends \yii\db\ActiveRecord
             'status_akses' => 'Status Akses',
             'doc_src_filename' => 'Nama File Sumber',
             'doc_app_filename' => 'Nama File App',
+            'fileup' => 'Upload Dokumen'
         ];
     }
     
@@ -152,7 +153,7 @@ class Surat extends \yii\db\ActiveRecord
     }
     
     public function getPathFile() {
-        return isset($this->doc_appfilename) ? Yii::getAlias('@app/docfile/').$this->doc_appfilename : null;
+        return isset($this->doc_appfilename) ? Yii::getAlias('@app/docfiles/').$this->doc_appfilename : null;
     }
     
     public function getUrlFile() {

@@ -21,7 +21,7 @@ class SuratSearch extends Surat
     {
         return [
             [['id','id_dari','kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim', 'status_akses'], 'integer'],
-            [['no_surat', 'tgl_surat','dari', 'perihal', 'lampiran', 'file_arsip','pengirim', 'pengirim_manual', 'alamat_manual'], 'safe'],
+            [['no_surat', 'tgl_surat','dari', 'perihal', 'lampiran', 'pengirim', 'pengirim_manual', 'alamat_manual'], 'safe'],
         ];
     }
 
@@ -78,7 +78,7 @@ class SuratSearch extends Surat
             ->andFilterWhere(['like', 'perihal', $this->perihal])
             ->andFilterWhere(['like','unit_kerja.unit_kerja', $this->dari])
             ->andFilterWhere(['like', 'lampiran', $this->lampiran])
-            ->andFilterWhere(['like', 'file_arsip', $this->file_arsip])
+            //->andFilterWhere(['like', 'file_arsip', $this->file_arsip])
             ->andFilterWhere(['like', 'unit_kerja.unit_kerja', $this->pengirim])
             ->andFilterWhere(['like', 'pengirim_manual', $this->pengirim_manual])
             ->andFilterWhere(['like', 'alamat_manual', $this->alamat_manual]);

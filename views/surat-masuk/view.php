@@ -39,7 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'lampiran',
             'kecepatan_sampai',
             'tingkat_keamanan',
-            'file_arsip',
             'id_pengirim',
             'pengirim_manual',
             'alamat_manual',

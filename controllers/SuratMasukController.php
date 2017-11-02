@@ -79,7 +79,7 @@ class SuratMasukController extends Controller
         $modelTujuan = new TujuanSurat();
      
         if ($modelSurat->load(Yii::$app->request->post()) && $modelTujuan->load(Yii::$app->request->post())) {
-                      
+            
             $modelTujuan->id_surat = 0;
 
             // validate all models
@@ -91,15 +91,20 @@ class SuratMasukController extends Controller
                 // mulai database transaction
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
+                    $upload = $modelSurat->uploadFile();
                     // simpan master record                   
                     if ($flag = $modelSurat->save(false)) {
+                        //simpan file
+                        if ($upload) {
+                            $path = $modelSurat->getPathFile();
+                            $upload->saveAs($path);
+                        }
                         // simpan details record
-                        
-                            $modelTujuan->id_surat = $modelSurat->id;
-                            $modelTujuan->id_penerima = Yii::$app->user->identity->unit_id;
-                            if (! ($flag = $modelTujuan->save(false))) {
+                        $modelTujuan->id_surat = $modelSurat->id;
+                        $modelTujuan->id_penerima = Yii::$app->user->identity->unit_id;
+                        if (! ($flag = $modelTujuan->save(false))) {
                                 $transaction->rollBack();
-                            }                        
+                        }                        
                     }
                     if ($flag) {
                         // sukses, commit database transaction
