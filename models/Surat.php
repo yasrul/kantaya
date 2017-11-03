@@ -147,7 +147,7 @@ class Surat extends \yii\db\ActiveRecord
         }
         $this->doc_srcfilename = $fileup->name;
         $ext = end((explode(".", $fileup->name)));
-        $this->doc_appfilename = $this->id.".{$ext}";
+        $this->doc_appfilename = Yii::$app->security->generateRandomString().".{$ext}";
         
         return $fileup;       
     }

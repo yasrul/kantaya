@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6e2e7ee9a0277a695bfdf21e7e2732c",
+    "content-hash": "cbbfb8c1317112f7bf86d84cb6499e2e",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -96,38 +96,7 @@
             ]
         },
         {
-            "name": "bower-asset/jquery",
-            "version": "2.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
-                "reference": "c0185ab7c75aab88762c5aae780b9d83b80eda72"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/c0185ab7c75aab88762c5aae780b9d83b80eda72",
-                "reference": "c0185ab7c75aab88762c5aae780b9d83b80eda72",
-                "shasum": ""
-            },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": "dist/jquery.js",
-                "bower-asset-ignore": [
-                    "package.json"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "keywords": [
-                "browser",
-                "javascript",
-                "jquery",
-                "library"
-            ]
-        },
-        {
-            "name": "bower-asset/jquery.inputmask",
+            "name": "bower-asset/inputmask",
             "version": "3.3.10",
             "source": {
                 "type": "git",
@@ -185,6 +154,38 @@
                 "plugins"
             ],
             "time": "2017-10-16T09:33:03+00:00"
+        },
+        {
+            "name": "bower-asset/jquery",
+            "version": "3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jquery/jquery-dist.git",
+                "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/77d2a51d0520d2ee44173afdf4e40a9201f5964e",
+                "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "dist/jquery.js",
+                "bower-asset-ignore": [
+                    "package.json"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "browser",
+                "javascript",
+                "jquery",
+                "library"
+            ],
+            "time": "2017-03-20T19:02:00+00:00"
         },
         {
             "name": "bower-asset/punycode",
@@ -774,100 +775,6 @@
             "time": "2017-09-04 15:30:52"
         },
         {
-            "name": "mdmsoft/yii2-ar-behaviors",
-            "version": "1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mdmsoft/yii2-ar-behaviors.git",
-                "reference": "95542f822433dd7c59b139a1dad4c698c41c30f7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mdmsoft/yii2-ar-behaviors/zipball/95542f822433dd7c59b139a1dad4c698c41c30f7",
-                "reference": "95542f822433dd7c59b139a1dad4c698c41c30f7",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "~2.0"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "bootstrap": "mdm\\behaviors\\ar\\Bootstrap",
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "mdm\\behaviors\\ar\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Misbahul Munir",
-                    "email": "misbahuldmunir@gmail.com"
-                }
-            ],
-            "description": "Behaviors for Yii2",
-            "keywords": [
-                "Behavior",
-                "activerecord",
-                "query scope",
-                "yii2"
-            ],
-            "time": "2016-02-22T02:51:54+00:00"
-        },
-        {
-            "name": "mdmsoft/yii2-widgets",
-            "version": "1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mdmsoft/yii2-widgets.git",
-                "reference": "c99410b181127d2864b5a4e8ee1413de57833baa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mdmsoft/yii2-widgets/zipball/c99410b181127d2864b5a4e8ee1413de57833baa",
-                "reference": "c99410b181127d2864b5a4e8ee1413de57833baa",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "~2.0.4"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "mdm\\widgets\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Misbahul Munir",
-                    "email": "misbahuldmunir@gmail.com"
-                }
-            ],
-            "description": "Widgets for Yii2",
-            "keywords": [
-                "tabular input",
-                "widgets",
-                "yii"
-            ],
-            "time": "2017-03-12T08:22:08+00:00"
-        },
-        {
             "name": "rmrevin/yii2-fontawesome",
             "version": "2.17.1",
             "source": {
@@ -1189,21 +1096,21 @@
         },
         {
             "name": "yiisoft/yii2",
-            "version": "2.0.12",
+            "version": "2.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "70acbecc75cb26b6cd66d16be0b06e4b73db190d"
+                "reference": "7028aaa4e89275b6648497e3255f952ca157c1e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/70acbecc75cb26b6cd66d16be0b06e4b73db190d",
-                "reference": "70acbecc75cb26b6cd66d16be0b06e4b73db190d",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/7028aaa4e89275b6648497e3255f952ca157c1e3",
+                "reference": "7028aaa4e89275b6648497e3255f952ca157c1e3",
                 "shasum": ""
             },
             "require": {
-                "bower-asset/jquery": "2.2.*@stable | 2.1.*@stable | 1.11.*@stable | 1.12.*@stable",
-                "bower-asset/jquery.inputmask": "~3.2.2 | ~3.3.5",
+                "bower-asset/inputmask": "~3.2.2 | ~3.3.5",
+                "bower-asset/jquery": "3.2.*@stable | 3.1.*@stable | 2.2.*@stable | 2.1.*@stable | 1.11.*@stable | 1.12.*@stable",
                 "bower-asset/punycode": "1.3.*",
                 "bower-asset/yii2-pjax": "~2.0.1",
                 "cebe/markdown": "~1.0.0 | ~1.1.0",
@@ -1285,7 +1192,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2017-06-05T14:33:41+00:00"
+            "time": "2017-11-02T21:39:38+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",

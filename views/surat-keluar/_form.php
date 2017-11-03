@@ -5,9 +5,8 @@ use yii\widgets\ActiveForm;
 use yii\bootstrap\Collapse;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
-//use yii\helpers\ArrayHelper;
+use kartik\file\FileInput;
 use wbraganca\dynamicform\DynamicFormWidget;
-//use mdm\widgets\TabularInput;
 
 //use app\models\TujuanSurat;
 use app\models\KecepatanSampai;
@@ -50,7 +49,16 @@ use app\models\UnitKerja;
         'style' => 'width : 300px',
     ]) ?>
     
-    <?= $form->field($modelSurat, 'file_arsip')->textInput() ?>
+    <?= $form->field($modelSurat, 'fileup')->widget(FileInput::className(), [
+        'options' => ['accept' => '*/*'],
+        'pluginOptions' => [
+            'allowedFileExtensions'=>['jpg','jpeg','png','pdf','zip','rar'], 
+            'showUpload'=>FALSE,
+            'showCaption'=>TRUE,
+            'showRemove'=>true,
+            'style' => 'width : 500px'
+        ]
+    ]) ?>
     <!--
     <?= $form->field($modelSurat, 'id_pengirim')->widget(Select2::className(), [
         'data' => UnitKerja::listUnit(1),
