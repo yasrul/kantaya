@@ -10,9 +10,7 @@ use yii\web\NotFoundHttpException;
 use app\models\Model;
 use app\models\Surat;
 use app\models\search\SuratSearch;
-use app\models\Register;
-use app\models\search\RegisterSearch;
-use app\models\TujuanSurat;
+use app\models\SuratTujuan;
 
 /**
  * Description of SuratKeluarController
@@ -71,12 +69,12 @@ class SuratKeluarController extends Controller {
      */
     public function actionCreate() {
         $modelSurat = new Surat();
-        $modelTujuan = [new TujuanSurat];
+        $modelTujuan = [new SuratTujuan()];
      
         if ($modelSurat->load(Yii::$app->request->post())) {
             $modelSurat->id_pengirim = Yii::$app->user->identity->unit_id;
             
-            $modelTujuan = Model::createMultiple(TujuanSurat::className());
+            $modelTujuan = Model::createMultiple(SuratTujuan::className());
             Model::loadMultiple($modelTujuan, Yii::$app->request->post());
             //assign default id_surat
             foreach ($modelTujuan as $tujuan) {
@@ -152,7 +150,7 @@ class SuratKeluarController extends Controller {
         if ($modelSurat->load(Yii::$app->request->post())) {
             $transaction = Yii::$app->db->beginTransaction();
             try {
-                $modelSurat->tujuan = Yii::$app->request->post('TujuanSurat', []);
+                $modelSurat->tujuan = Yii::$app->request->post('SuratTujuan', []);
                 if ($modelSurat->save()) {
                     $transaction->commit();
                     return $this->redirect(['view', 'id' => $modelSurat->id]);

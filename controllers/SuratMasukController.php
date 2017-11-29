@@ -12,9 +12,8 @@ use app\models\Model;
 use app\models\Surat;
 use app\models\Disposisi;
 use app\models\search\SuratSearch;
-//use app\models\Register;
-//use app\models\search\RegisterSearch;
-use app\models\TujuanSurat;
+//use app\models\TujuanSurat;
+use app\models\SuratTujuan;
 use app\models\DisposisiTujuan;
 
 /**
@@ -76,7 +75,7 @@ class SuratMasukController extends Controller
      */
     public function actionCreate() {
         $modelSurat = new Surat();
-        $modelTujuan = new TujuanSurat();
+        $modelTujuan = new SuratTujuan();
      
         if ($modelSurat->load(Yii::$app->request->post()) && $modelTujuan->load(Yii::$app->request->post())) {
             
@@ -217,7 +216,7 @@ class SuratMasukController extends Controller
 
         public function actionUpdate($id) {
         $modelSurat = $this->findModel($id);
-        $modelTujuan = TujuanSurat::find()->where(['id_surat' => $modelSurat->id, 'id_penerima' => Yii::$app->user->identity->unit_id])->one();
+        $modelTujuan = SuratTujuan::find()->where(['id_surat' => $modelSurat->id, 'id_penerima' => Yii::$app->user->identity->unit_id])->one();
      
         if ($modelSurat->load(Yii::$app->request->post()) && $modelTujuan->load(Yii::$app->request->post())) {
                       
