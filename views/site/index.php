@@ -6,13 +6,10 @@ use yii\widgets\Block;
 $this->title = 'Sel-Biru';
 ?>
 <div class="site-index">
-
-    <div class="jumbotron">
-        <h1>SEL-BIRU</h1>
-
-        <p class="lead">Surat Elektronik Biro Umum</p>
-        
-    </div>
+  
+    <h1 align="center">Sel-Biru</h1>
+    <h2 align="center">SURAT ELEKTRONIK BIRO UMUM</h2>
+    <img src="kantorgubntb.jpg" class="img-responsive center-block">
 
     <div class="body-content">
 

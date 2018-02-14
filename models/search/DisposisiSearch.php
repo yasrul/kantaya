@@ -45,9 +45,9 @@ class DisposisiSearch extends Disposisi
     public function search($params, $io)
     {
         if ($io == 'in') {
-            $query = Disposisi::find()->where(['disposisi_tujuan.id_penerima' => Yii::$app->user->id])->orderBy('tgl_disposisi Desc')->joinWith('tujuan, surat');
+            $query = Disposisi::find()->where(['disposisi_tujuan.id_penerima' => Yii::$app->user->id])->orderBy('tgl_disposisi Desc')->joinWith(['tujuan','surat']);
         } elseif ($io == 'out') {
-            $query = Disposisi::find()->where(['id_pemberi' => Yii::$app->user->id])->orderBy('tgl_disposisi Desc')->joinWith('tujuan, surat');   
+            $query = Disposisi::find()->where(['id_pemberi' => Yii::$app->user->id])->orderBy('tgl_disposisi Desc')->joinWith(['tujuan','surat']);   
         }
         
 

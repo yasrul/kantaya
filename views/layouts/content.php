@@ -39,7 +39,7 @@ use dmstr\widgets\Alert;
     <div class="pull-right hidden-xs">
         <b>Version</b> 1.0
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://diskominfotik.ntbprov.go.id">Dinas Komunikasi, Informatika dan Statistik</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 <a href="http://biroumum.ntbprov.go.id">Biro Umum Setda Provinsi NTB</a>.</strong> All rights
     reserved.
 </footer>
 

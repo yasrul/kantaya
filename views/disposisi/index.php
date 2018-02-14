@@ -7,12 +7,12 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\search\DisposisiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Disposisis';
+$this->title = 'Disposisi';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="disposisi-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!--<h1><?= Html::encode($this->title) ?></h1>-->
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
