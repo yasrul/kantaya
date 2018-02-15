@@ -57,10 +57,6 @@ class SuratMasukController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-    
-    public function actionIndexDispo() {
-        
-    }
 
     public function actionView($id) {
         return $this->render('view', [

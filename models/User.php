@@ -8,7 +8,7 @@ use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use app\models\Role;
-use app\models\Status;
+use app\models\StatusUser;
 use app\models\ValueHelpers;
 
 /**

@@ -18,20 +18,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('+ Surat Masuk Manual', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
-            //'id_dari',
-            ['attribute' => 'dari', 'value' => 'dari.unit_kerja'],
-            'no_surat',                      
-            ['attribute'=>'tgl_surat', 'contentOptions'=>['style'=>'width : 10%']],
-            'perihal',
+                    //'id',
+                    //'id_dari',
+                    ['attribute' => 'dari', 'value' => 'dari.unit_kerja'],
+                    'no_surat',                      
+                    ['attribute'=>'tgl_surat', 'contentOptions'=>['style'=>'width : 10%']],
+                    'perihal',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+        </div>   
+    </div>
 </div>

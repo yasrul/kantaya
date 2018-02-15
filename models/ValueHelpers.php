@@ -4,7 +4,7 @@ namespace app\models;
 
 use yii;
 use app\models\Role;
-use app\models\Status;
+use app\models\StatusUser;
 use app\models\User;
 
 /**
@@ -50,7 +50,7 @@ class ValueHelpers {
     }
     
     public static function getStatusId($status_name) {
-        $status = Status::find('id')
+        $status = StatusUser::find('id')
                 ->where(['status_name' => $status_name])
                 ->one();
         return isset($status->id) ? $status->id : false;

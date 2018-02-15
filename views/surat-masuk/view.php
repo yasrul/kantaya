@@ -45,31 +45,42 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ]) ?>
     
-    <?= GridView::widget([
-        'dataProvider' => new yii\data\ActiveDataProvider([
-            'query' => $modelSurat->getTujuan()->where(['id_penerima' => \Yii::$app->user->identity->unit_id]),
-            'pagination' => false,
-        ]),
-        'columns' => [
-            'id_penerima',
-            'tgl_diterima',
-            'penerima_manual',
-            'alamat_manual',
-            'status_tujuan',
-        ]
-    ]) ?>
+    <div class="panel panel-success">
+        <div class="panel-heading">Tujuan Surat</div>        
+        <div class="panel-body">
+            <?= GridView::widget([
+            'dataProvider' => new yii\data\ActiveDataProvider([
+                'query' => $modelSurat->getTujuan()->where(['id_penerima' => \Yii::$app->user->identity->unit_id]),
+                'pagination' => false,
+            ]),
+            'columns' => [
+                'id_penerima',
+                'tgl_diterima',
+                'penerima_manual',
+                'alamat_manual',
+                'status_tujuan',
+            ]
+        ]) ?>
+        </div>
+    </div>
     
-    <?= GridView::widget([
-        'dataProvider' => new yii\data\ActiveDataProvider([
-            'query' => $modelSurat->getDisposisi(),
-            'pagination' => FALSE
-        ]),
-        'columns' => [
-            'id_pemberi',
-            'tgl_disposisi',
-            'tgl_selesai',
-            'pesan'
+    <div class="panel panel-info">
+        <div class="panel-heading">Disposisi Surat</div>
+        <div class="panel-body">
+            <?= GridView::widget([
+            'dataProvider' => new yii\data\ActiveDataProvider([
+                'query' => $modelSurat->getDisposisi(),
+                'pagination' => FALSE
+            ]),
+            'columns' => [
+                'id_pemberi',
+                'tgl_disposisi',
+                'tgl_selesai',
+                'pesan'
         ]
     ]) ?>
+        </div>
+    </div>
+    
 </div>
    

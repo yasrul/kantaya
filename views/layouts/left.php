@@ -1,3 +1,9 @@
+<?php
+
+    use Yii;    
+    use app\models\PermissionHelpers;
+
+?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -27,10 +33,9 @@
         </form>
         <!-- /.search form -->
         
-        <?= dmstr\widgets\Menu::widget(
-            [
-                'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
-                'items' => [
+        <?php
+                $items = [];
+                $items = [
                     ['label' => 'Menu Kantaya', 'options' => ['class' => 'header']],
                     ['label' => 'Surat Masuk', 'icon' => 'envelope', 'url' => '#', 'items' => [
                         ['label' => 'Surat Masuk', 'icon' => 'download', 'url' => ['surat-masuk/index']],
@@ -42,8 +47,28 @@
                     ]],
                     ['label' => 'Laporan', 'icon' => 'files-o', 'url' => '#'],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    ['label' => 'Logout', 'url' => ['site/logout'], 'visible' => ! Yii::$app->user->isGuest],
+                ];
+            /*
+            $is_admin = PermissionHelpers::requireMinimumRole('AdminSystem');
+            if($is_admin) {
+                $items[] = ['label'=>'Admin', 'items'=> [
+                    ['label'=>'User','url'=>['user/index']],
+                    ['label'=>'Role', 'url'=>['role/index']],
+                    ['label'=>'Status', 'url'=>['status-user/index']],
                     
-                ],
+                ]];
+            }
+            */
+            
+            //$items[] = ['label' => 'Logout ('.Yii::$app->user->identity->username.')', 'url' => ['site/logout'], 'visible' => ! Yii::$app->user->isGuest];
+        ?>
+        
+        <?= dmstr\widgets\Menu::widget(
+            [
+                'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
+                'items' => $items,
+                   
             ]
         ) ?>
 

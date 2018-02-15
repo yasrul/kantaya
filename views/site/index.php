@@ -7,7 +7,7 @@ $this->title = 'Sel-Biru';
 ?>
 <div class="site-index">
   
-    <h1 align="center">Sel-Biru</h1>
+    <h1 align="center">SeL-BirU</h1>
     <h2 align="center">SURAT ELEKTRONIK BIRO UMUM</h2>
     <img src="kantorgubntb.jpg" class="img-responsive center-block">
 

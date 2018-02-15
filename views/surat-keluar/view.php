@@ -43,7 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ]) ?>
     
-    <?= GridView::widget([
+    <div class="panel panel-success">
+        <div class="panel-heading">Tujuan Surat</div>        
+        <div class="panel-body">
+        <?= GridView::widget([
         'dataProvider' => new yii\data\ActiveDataProvider([
             'query' => $modelSurat->getTujuan(),
             'pagination' => false,
@@ -55,6 +58,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'alamat_manual',
             'status_tujuan',
         ]
-    ]) ?>
+        ]) ?>
+        </div>
+    </div>
 </div>
    
