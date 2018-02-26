@@ -16,23 +16,28 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Disposisi', ['create'], ['class' => 'btn btn-success']) ?>
+        <!--<?= Html::a('Create Disposisi', ['create'], ['class' => 'btn btn-success']) ?> -->
     </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'id_surat',
-            'id_pemberi',
-            'tgl_disposisi',
-            'tgl_selesai',
-            // 'id_intruksi',
-            // 'pesan',
+                    'id',
+                    'id_surat',
+                    'id_pemberi',
+                    'tgl_disposisi',
+                    'tgl_selesai',
+                    // 'id_intruksi',
+                    // 'pesan',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+        </div>
+    </div>
+    
 </div>
