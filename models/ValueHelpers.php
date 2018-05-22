@@ -2,10 +2,11 @@
 
 namespace app\models;
 
-use yii;
+use Yii;
 use app\models\Role;
-use app\models\Status;
+use app\models\StatusUser;
 use app\models\User;
+
 
 /**
  * Description of ValueHelpers
@@ -19,8 +20,8 @@ class ValueHelpers {
         return $userHasRoleName == $role_name ? true : false;
     }
     
-    public static function getUsersRoleValue($userId=NULL) {
-        if ($userId==NULL) {
+    public static function getUsersRoleValue($userId=null) {
+        if ($userId==null) {
             $usersRoleValue = Yii::$app->user->identity->role->role_value;
             return isset($usersRoleValue) ? $usersRoleValue : FALSE;
         } else {
@@ -50,7 +51,7 @@ class ValueHelpers {
     }
     
     public static function getStatusId($status_name) {
-        $status = Status::find('id')
+        $status = StatusUser::find('id')
                 ->where(['status_name' => $status_name])
                 ->one();
         return isset($status->id) ? $status->id : false;

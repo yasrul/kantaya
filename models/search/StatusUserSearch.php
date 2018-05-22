@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use app\models\StatusUser;
 
 /**
- * StatusSearch represents the model behind the search form about `app\models\Status`.
+ * StatusSearch represents the model behind the search form about `app\models\StatusUser`.
  */
 class StatusUserSearch extends StatusUser
 {

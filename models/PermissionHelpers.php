@@ -1,10 +1,7 @@
 <?php
 
 namespace app\models;
-
-use yii;
-use yii\web\Controller;
-use yii\helpers\Url;
+use Yii;
 use app\models\ValueHelpers;
 
 /**
@@ -24,9 +21,10 @@ class PermissionHelpers {
         return ValueHelpers::roleMatch($role_name);
     }
     
+    
     public static function requireMinimumRole($role_name, $userId=null) {
         if(ValueHelpers::isRoleNameValid($role_name)) {
-            if($userId=NULL) {
+            if($userId==null) {
                 $userRoleValue = ValueHelpers::getUsersRoleValue();
             }else {
                 $userRoleValue = ValueHelpers::getUsersRoleValue($userId);
@@ -38,8 +36,8 @@ class PermissionHelpers {
     }
     
     public static function userMustBeOwner($model_name, $model_id) {
-        $connection = \Yii::$app->db;
-        $userid = \Yii::$app->user->identity->id;
+        $connection = Yii::$app->db;
+        $userid = Yii::$app->user->identity->id;
         
         $sql = "select id from $model_name"
                 . "where user_id=:userid and id=:model_id ";

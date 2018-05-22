@@ -9,7 +9,6 @@ use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use app\models\Role;
 use app\models\StatusUser;
-use app\models\ValueHelpers;
 
 /**
  * This is the model class for table "user".
@@ -201,7 +200,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
     
     public function getRole() {
-        return $this->hasOne(Role::className(), ['id'=>'role_id']);
+        return $this->hasOne(Role::className(), ['id' => 'role_id']);
     }
     
     public function getRoleName() {

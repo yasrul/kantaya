@@ -52,7 +52,7 @@ class Role extends \yii\db\ActiveRecord
         return ArrayHelper::map($droption, 'id', 'role_name');
     }
 
-        public function getUsers() {
+    public function getUsers() {
         return $this->hasMany(User::className(), ['role_id'=>'id']);
     }
 }

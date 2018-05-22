@@ -33,31 +33,39 @@
         <!-- /.search form -->
         
         <?php
-            $items = [];
             $items = [
                 ['label' => 'Menu Kantaya', 'options' => ['class' => 'header']],
-                ['label' => 'Surat Masuk', 'icon' => 'envelope', 'url' => '#', 'items' => [
-                    ['label' => 'Surat Masuk', 'icon' => 'download', 'url' => ['surat-masuk/index']],
-                    ['label' => 'Disposisi Masuk', 'icon' => 'hand-o-down', 'url' => ['disposisi/index', 'io' => 'in']]
-                ]],
-                ['label' => 'Surat Keluar', 'icon' => 'envelope-o', 'url' => '#', 'items' => [
-                    ['label' => 'Surat Keluar', 'icon' => 'upload', 'url' => ['surat-keluar/index']],
-                    ['label' => 'Disposisi Keluar', 'icon' => 'hand-o-up', 'url' => ['disposisi/index', 'io' => 'out']]
-                ]],
-                ['label' => 'Laporan', 'icon' => 'files-o', 'url' => '#'],
-                ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                ['label' => 'Logout', 'url' => ['site/logout'], 'visible' => ! Yii::$app->user->isGuest],
+                ['label'=>'Home', 'url'=>['/site/index']],
             ];
             
-            $is_admin = PermissionHelpers::requireMinimumRole('AdminSystem');
-            if($is_admin) {
-                $items[] = ['label'=>'Admin', 'items'=> [
-                    ['label'=>'User','url'=>['user/index']],
-                    ['label'=>'Role', 'url'=>['role/index']],
-                    ['label'=>'Status', 'url'=>['status-user/index']],
-                    
+            if (Yii::$app->user->isGuest) {
+                $items[] = ['label'=>'Signup', 'url'=>['/site/signup']];
+                $items[] = ['label'=>'Login', 'url'=>['/site/login']];
+            } else {
+                $items[] = ['label' => 'Surat Masuk', 'icon' => 'envelope', 'url' => '#', 'items' => [
+                        ['label' => 'Surat Masuk', 'icon' => 'download', 'url' => ['surat-masuk/index']],
+                        ['label' => 'Disposisi Masuk', 'icon' => 'hand-o-down', 'url' => ['disposisi/index', 'io' => 'in']]
                 ]];
-            }
+                $items[] = ['label' => 'Surat Keluar', 'icon' => 'envelope-o', 'url' => '#', 'items' => [
+                        ['label' => 'Surat Keluar', 'icon' => 'upload', 'url' => ['surat-keluar/index']],
+                        ['label' => 'Disposisi Keluar', 'icon' => 'hand-o-up', 'url' => ['disposisi/index', 'io' => 'out']]
+                ]];
+                $items[] = ['label' => 'Laporan', 'icon' => 'files-o', 'url' => '#'];
+                             
+                $is_admin = PermissionHelpers::requireMinimumRole('AdminSystem');
+                if($is_admin) {
+                    $items[] = ['label'=>'Admin', 'items'=> [
+                        ['label'=>'User','url'=>['user/index']],
+                        ['label'=>'Role', 'url'=>['role/index']],
+                        ['label'=>'Status', 'url'=>['status-user/index']],
+                    
+                    ]];
+                }
+                $items[] = ['label' => 'Logout', 'url' => ['site/logout'], 'visible' => ! Yii::$app->user->isGuest];
+        }
+            
+            
+            
             
             
             //$items[] = ['label' => 'Logout ('.Yii::$app->user->identity->username.')', 'url' => ['site/logout'], 'visible' => ! Yii::$app->user->isGuest];
