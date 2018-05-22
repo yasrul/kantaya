@@ -26,7 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ]); ?>
         <!--<?= Html::a('Disposisi', ['create-dispo', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>-->
-        <?= Html::a('Disposisi', ['disposisi/create', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Buat Disposisi', ['disposisi/create', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Teruskan', ['surat-masuk/create', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
     </p>
     
     <?= DetailView::widget([
