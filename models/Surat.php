@@ -8,6 +8,7 @@ use app\models\KecepatanSampai;
 use app\models\TingkatKeamanan;
 use app\models\Disposisi;
 use app\models\DisposisiTujuan;
+use app\models\SuratTujuan;
 
 /**
  * This is the model class for table "surat".
@@ -91,7 +92,7 @@ class Surat extends \yii\db\ActiveRecord
     }
     
     public function getTujuan() {
-        return $this->hasMany(TujuanSurat::className(), ['id_surat' => 'id' ]);
+        return $this->hasMany(SuratTujuan::className(), ['id_surat' => 'id' ]);
     }
     
     public function setTujuan($value) {

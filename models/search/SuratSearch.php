@@ -44,7 +44,7 @@ class SuratSearch extends Surat
     public function search($params, $io)
     {
         if ($io == 'in') {
-            $query = Surat::find()->where(['tujuan_surat.id_penerima' => Yii::$app->user->identity->unit_id])->orderBy('tgl_surat Desc')->joinWith(['tujuan']);
+            $query = Surat::find()->where(['surat_tujuan.id_penerima' => Yii::$app->user->identity->unit_id])->orderBy('tgl_surat Desc')->joinWith(['tujuan']);
         } elseif ($io == 'out') {
             $query = Surat::find()->where(['id_pengirim' => Yii::$app->user->identity->unit_id])->orderBy('tgl_surat Desc')->joinWith(['tujuan']);
         }
