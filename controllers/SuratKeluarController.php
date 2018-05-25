@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
+use yii\helpers\ArrayHelper;
 use app\models\Model;
 use app\models\Surat;
 use app\models\search\SuratSearch;
@@ -69,29 +70,23 @@ class SuratKeluarController extends Controller {
      */
     public function actionCreate() {
         $modelSurat = new Surat();
-        $modelTujuan = [new SuratTujuan()];
+        $modelsTujuan = [new SuratTujuan()];
      
         if ($modelSurat->load(Yii::$app->request->post())) {
             $modelSurat->id_pengirim = Yii::$app->user->identity->unit_id;
+            $modelSurat->id_perekam = Yii::$app->user->identity->unit_id;
             
-            $modelTujuan = Model::createMultiple(SuratTujuan::className());
-            Model::loadMultiple($modelTujuan, Yii::$app->request->post());
+            $modelsTujuan = Model::createMultiple(SuratTujuan::className());
+            Model::loadMultiple($modelsTujuan, Yii::$app->request->post());
             //assign default id_surat
-            foreach ($modelTujuan as $tujuan) {
-                $tujuan->id_surat = 0;
+            
+            foreach ($modelsTujuan as $modelTujuan) {
+                $modelTujuan->id_surat = 0;
             }
-            // ajax validation
-            if (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ArrayHelper::merge(
-                    ActiveForm::validateMultiple($modelTujuan),
-                    ActiveForm::validate($modelSurat)
-                );
-            }
+   
             // validate all models
-            $valid1 = $modelSurat->validate();
-            $valid2 = Model::validateMultiple($modelTujuan);
-            $valid = $valid1 && $valid2;
+            $valid = $modelSurat->validate();
+            $valid = Model::validateMultiple($modelsTujuan) && $valid;
             
             if ($valid) {
                 // mulai database transaction
@@ -100,9 +95,9 @@ class SuratKeluarController extends Controller {
                     // simpan master record                   
                     if ($flag = $modelSurat->save(false)) {
                         // simpan details record
-                        foreach ($modelTujuan as $tujuan) {
-                            $tujuan->id_surat = $modelSurat->id;
-                            if (! ($flag = $tujuan->save(false))) {
+                        foreach ($modelsTujuan as $modelTujuan) {
+                            $modelTujuan->id_surat = $modelSurat->id;
+                            if (! ($flag = $modelTujuan->save(false))) {
                                 $transaction->rollBack();
                                 break;
                             }
@@ -113,57 +108,69 @@ class SuratKeluarController extends Controller {
                         // kemudian tampilkan hasilnya
                         $transaction->commit();
                         return $this->redirect(['view', 'id' => $modelSurat->id]);
-                    } else {
-                        return $this->render('create', [
-                            'modelSurat' => $modelSurat,
-                            'modelTujuan' => $modelTujuan,
-                        ]);
-                    }
+                    } 
                 } catch (Exception $ex) {
                     // penyimpanan gagal, rollback database transaction
                     $transaction->rollBack();
                     throw $ex;
                 }
-            } else {
-                return $this->render('create', [
-                    'modelSurat' => $modelSurat,
-                    'modelTujuan' => $modelTujuan,
-                    'error' => 'valid1: '.print_r($valid1,true).' - valid2: '.print_r($valid2,true),
-                ]);
             }
            
-        } else {
-            // inisialisai id 
-            // diperlukan untuk form master-detail
-            $modelSurat->id = 0;
-            // render view
-            return $this->render('create', [
-                'modelSurat' => $modelSurat,
-                'modelTujuan' => $modelTujuan,
-            ]);
-        }     
+        } 
+        // inisialisai id 
+        // diperlukan untuk form master-detail
+        //$modelSurat->id = 0;
+        return $this->render('create', [
+            'modelSurat' => $modelSurat,
+            'modelsTujuan' => (empty($modelsTujuan)) ? [New SuratTujuan()] : $modelsTujuan,
+        ]);
+             
     }
     
     public function actionUpdate($id) {
         $modelSurat = $this->findModel($id);
+        $modelsTujuan = $modelSurat->tujuan;
         
         if ($modelSurat->load(Yii::$app->request->post())) {
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                $modelSurat->tujuan = Yii::$app->request->post('SuratTujuan', []);
-                if ($modelSurat->save()) {
-                    $transaction->commit();
-                    return $this->redirect(['view', 'id' => $modelSurat->id]);
-                }
-                $transaction->rollBack();
+            
+            $oldIDs = ArrayHelper::map($modelsTujuan, 'id', 'id');
+            $modelsTujuan = Model::createMultiple(SuratTujuan::className(), $modelsTujuan);
+            Model::loadMultiple($modelsTujuan, Yii::$app->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsTujuan, 'id', 'id')));
+            
+            //validate all model
+            $valid = $modelSurat->validate();
+            $valid = Model::validateMultiple($modelsTujuan) && $valid;
+
+            if ($valid) {
+                $transaction = Yii::$app->db->beginTransaction();
                 
-            } catch (Exception $ex) {
-                $transaction->rollBack();
-                throw $ex;
+                try {
+                    if ($flag = $modelSurat->save()) {
+                        if(!empty($deletedIDs)) {
+                            SuratTujuan::deleteAll(['id' => $deletedIDs]);
+                        }
+                        foreach ($modelsTujuan as $modelTujuan) {
+                            $modelTujuan->id_surat = $modelSurat->id;
+                            if (! ($flag = $modelTujuan->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $modelSurat->id]);
+                    }
+                } catch (Exception $ex) {
+                    $transaction->rollBack();
+                    throw $ex;
+                }
             }
         } else {
             return $this->render('update', [
-                'modelSurat' => $modelSurat
+                'modelSurat' => $modelSurat,
+                'modelsTujuan' => $modelsTujuan
             ]);
         }
     }

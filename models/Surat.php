@@ -26,6 +26,7 @@ use app\models\SuratTujuan;
  * @property integer $status_akses
  * @property string $doc_srcfilename
  * @property string $doc_appfilename
+ * @property string $id_perekam
  * @property TujuanSurat[] $tujuan
  */
 class Surat extends \yii\db\ActiveRecord
@@ -51,7 +52,7 @@ class Surat extends \yii\db\ActiveRecord
             [['kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim','status_akses'], 'integer'],
             [['no_surat', 'perihal', 'doc_srcfilename', 'doc_appfilename', 'alamat_manual'], 'string', 'max' => 255],
             [['lampiran', 'pengirim_manual'], 'string', 'max' => 100],
-            [['doc_srcfilename', 'doc_appfilename'], 'safe'],
+            [['doc_srcfilename', 'doc_appfilename', 'id_perekam'], 'safe'],
             [['fileup'], 'file', 'extensions' => ['jpg','jpeg','pdf','zip','rar'],
                 'maxSize' => 1024*1024,
                 'skipOnEmpty' => TRUE,

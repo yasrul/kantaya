@@ -15,14 +15,14 @@ use app\models\UnitKerja;
 
 /* @var $this yii\web\View */
 /* @var $modelSurat app\models\Surat */
-/* @var $modelTujuan app\models\TujuanSurat */
+/* @var $modelsTujuan app\models\SuratTujuan */
 /* @var $modelRegister app\models\Register */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
 
 <div class="surat-keluar-form">
-    <?php $form = ActiveForm::begin(['id' => 'surat-masuk-form']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'surat-keluar-form']); ?>
     <?= $form->field($modelSurat, 'id_dari')->widget(Select2::className(), [
         'data' => UnitKerja::listUnit(1),
         'options' => ['placeholder' => '[ Surat Dari... ]'],
@@ -77,8 +77,8 @@ use app\models\UnitKerja;
                 'min' => 1,                                  // 0 or 1 (default 1)
                 'insertButton' => '.add-item',               // css class
                 'deleteButton' => '.remove-item',            // css class
-                'model' => $modelTujuan[0],
-                'formId' => 'surat-masuk-form',
+                'model' => $modelsTujuan[0],
+                'formId' => 'surat-keluar-form',
                 'formFields' => [
                     'id_surat',
                     'id_penerima',
@@ -88,20 +88,21 @@ use app\models\UnitKerja;
             ]); ?>
 
             <div class="container-items"><!-- widgetContainer -->
-            <?php foreach ($modelTujuan as $i => $tujuan): ?>
+            <?php foreach ($modelsTujuan as $i => $modelTujuan): ?>
                 <div class="item row">    
                     <?php
                         // necessary for update action.
-                        if (! $tujuan->isNewRecord) {
-                            echo Html::activeHiddenInput($tujuan, "[{$i}]id");
+                        if (! $modelTujuan->isNewRecord) {
+                            echo Html::activeHiddenInput($modelTujuan, "[{$i}]id");
                         }
                     ?>
                     <div class="col-sm-8 col-md-4">
-                    <?= $form->field($tujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
-                        'data' => UnitKerja::listUnit(Yii::$app->user->identity->unit_id),
-                        'options' => ['placeholder' => '[ Penerima Surat... ]'],
+                    <?= $form->field($modelTujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
+                        'data' => UnitKerja::listUnit(1),
+                        'options' => ['placeholder' => '[ Penerima Surat ]'],
                         'pluginOptions' => ['allowClear' => true],
                     ]); ?>
+                    
                     </div>
                                        
                     <!--
@@ -110,8 +111,8 @@ use app\models\UnitKerja;
                             [
                                 'label' => 'Pengirim Manual',
                                 'content' => [
-                                    $form->field($tujuan, "[{$i}]penerima_manual")->textInput(['maxLength'=>true]),
-                                    $form->field($tujuan, "[{$i}]alamat_manual")->textInput(['maxLength'=>true])
+                                    $form->field($modelTujuan, "[{$i}]penerima_manual")->textInput(['maxLength'=>true]),
+                                    $form->field($modelTujuan, "[{$i}]alamat_manual")->textInput(['maxLength'=>true])
                                 ]
                             ]
                         ]

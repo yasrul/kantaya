@@ -75,6 +75,7 @@ class SuratMasukController extends Controller
      
         if ($modelSurat->load(Yii::$app->request->post()) && $modelTujuan->load(Yii::$app->request->post())) {
             
+            $modelSurat->id_perekam = Yii::$app->user->identity->unit_id;
             $modelTujuan->id_surat = 0;
 
             // validate all models

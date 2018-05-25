@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $modelSurat app\models\Surat */
 
-$this->title = 'Update Surat Masuk : '.$modelSurat->id;
+$this->title = 'Update Surat Keluar : '.$modelSurat->id;
 $this->params['breadcrumbs'][] = ['label' => 'Surat Keluar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $modelSurat->id, 'url' =>['view', 'id' => $modelSurat->id]];
 $this->params['breadcrumbs'][] = 'Update';
@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = 'Update';
     
     <?= $this->render('_form', [
         'modelSurat' => $modelSurat,
+        'modelsTujuan' => $modelsTujuan,
     ]) ?>
     
 </div>
