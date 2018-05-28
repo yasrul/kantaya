@@ -53,8 +53,7 @@ class SuratKeluarController extends Controller {
         ]);
     }
     
-    public function actionIndexDispo() {
-        
+    public function actionIndexDispo() {       
     }
 
         public function actionView($id) {
@@ -119,7 +118,7 @@ class SuratKeluarController extends Controller {
         } 
         // inisialisai id 
         // diperlukan untuk form master-detail
-        //$modelSurat->id = 0;
+        $modelSurat->id = 0;
         return $this->render('create', [
             'modelSurat' => $modelSurat,
             'modelsTujuan' => (empty($modelsTujuan)) ? [New SuratTujuan()] : $modelsTujuan,
@@ -167,12 +166,12 @@ class SuratKeluarController extends Controller {
                     throw $ex;
                 }
             }
-        } else {
-            return $this->render('update', [
-                'modelSurat' => $modelSurat,
-                'modelsTujuan' => $modelsTujuan
-            ]);
-        }
+        } 
+        return $this->render('update', [
+            'modelSurat' => $modelSurat,
+            'modelsTujuan' => (empty($modelsTujuan)) ? [New SuratTujuan] : $modelsTujuan 
+        ]);
+        
     }
     
     public function actionDelete($id) {

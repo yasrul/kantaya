@@ -35,11 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'tgl_surat',
             'perihal',
             'lampiran',
-            'kecepatan_sampai',
-            'tingkat_keamanan',
-            'id_pengirim',
-            'pengirim_manual',
-            'alamat_manual',
+            'kecepatanSampai.nama_kecepatan',
+            'tingkatKeamanan.nama_tingkat',
+            //'pengirim.unit_kerja',
+            //'pengirim_manual',
+            //'alamat_manual',
         ]
     ]) ?>
     
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'pagination' => false,
         ]),
         'columns' => [
-            'id_penerima',
+            'penerima.unit_kerja',
             'tgl_diterima',
             'penerima_manual',
             'alamat_manual',

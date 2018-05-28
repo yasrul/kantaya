@@ -101,8 +101,7 @@ use app\models\UnitKerja;
                         'data' => UnitKerja::listUnit(1),
                         'options' => ['placeholder' => '[ Penerima Surat ]'],
                         'pluginOptions' => ['allowClear' => true],
-                    ]); ?>
-                    
+                    ]); ?>                  
                     </div>
                                        
                     <!--
@@ -117,8 +116,7 @@ use app\models\UnitKerja;
                             ]
                         ]
                         ]) ?>
-                    -->
-                          
+                    -->                        
                                        
                     <div class="col-sm-2 col-md-1 item-action">
                     	<div class="pull-right">

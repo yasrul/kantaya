@@ -99,14 +99,6 @@ class Surat extends \yii\db\ActiveRecord
     public function setTujuan($value) {
         $this->loadRelated('tujuan', $value);
     }
-    
-    public function getRegister() {
-        return $this->hasMany(Register::className(), ['id_surat' => 'id']);
-    }
-    
-    public function setRegister($value) {
-        $this->loadRelated('register', $value);
-    }
 
     public function getPengirim() {
         return $this->hasOne(UnitKerja::className(), ['id' => 'id_pengirim']);
