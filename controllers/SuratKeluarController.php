@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
 use app\models\Model;
 use app\models\Surat;
 use app\models\search\SuratSearch;
@@ -77,18 +78,24 @@ class SuratKeluarController extends Controller {
             
             $modelsTujuan = Model::createMultiple(SuratTujuan::className());
             Model::loadMultiple($modelsTujuan, Yii::$app->request->post());
-            //assign default id_surat
             
+            //assign default id_surat        
             foreach ($modelsTujuan as $modelTujuan) {
                 $modelTujuan->id_surat = 0;
             }
    
+            //ajax validation
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ArrayHelper::merge(
+                        ActiveForm::validateMultiple($modelsTujuan), 
+                        ActiveForm::validate($modelSurat));
+            }
             // validate all models
             $valid = $modelSurat->validate();
             $valid = Model::validateMultiple($modelsTujuan) && $valid;
             
             if ($valid) {
-                // mulai database transaction
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     // simpan master record                   
@@ -103,13 +110,10 @@ class SuratKeluarController extends Controller {
                         }
                     }
                     if ($flag) {
-                        // sukses, commit database transaction
-                        // kemudian tampilkan hasilnya
                         $transaction->commit();
                         return $this->redirect(['view', 'id' => $modelSurat->id]);
                     } 
                 } catch (Exception $ex) {
-                    // penyimpanan gagal, rollback database transaction
                     $transaction->rollBack();
                     throw $ex;
                 }
@@ -118,7 +122,7 @@ class SuratKeluarController extends Controller {
         } 
         // inisialisai id 
         // diperlukan untuk form master-detail
-        $modelSurat->id = 0;
+        //$modelSurat->id = 0;
         return $this->render('create', [
             'modelSurat' => $modelSurat,
             'modelsTujuan' => (empty($modelsTujuan)) ? [New SuratTujuan()] : $modelsTujuan,
@@ -137,15 +141,22 @@ class SuratKeluarController extends Controller {
             Model::loadMultiple($modelsTujuan, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsTujuan, 'id', 'id')));
             
+            //ajax validation
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ArrayHelper::merge(
+                        ActiveForm::validateMultiple($modelsTujuan), 
+                        ActiveForm::validate($modelSurat));
+            }
             //validate all model
-            $valid = $modelSurat->validate();
-            $valid = Model::validateMultiple($modelsTujuan) && $valid;
+            $valid1 = $modelSurat->validate();
+            $valid2 = Model::validateMultiple($modelsTujuan);
+            $valid = $valid1 && $valid2;
 
             if ($valid) {
                 $transaction = Yii::$app->db->beginTransaction();
-                
                 try {
-                    if ($flag = $modelSurat->save()) {
+                    if ($flag = $modelSurat->save(false)) {
                         if(!empty($deletedIDs)) {
                             SuratTujuan::deleteAll(['id' => $deletedIDs]);
                         }
@@ -161,10 +172,16 @@ class SuratKeluarController extends Controller {
                         $transaction->commit();
                         return $this->redirect(['view', 'id' => $modelSurat->id]);
                     }
-                } catch (Exception $ex) {
+                } catch (Exception $e) {
                     $transaction->rollBack();
-                    throw $ex;
+                    throw $e;
                 }
+            } else {
+                return $this->render('update', [
+                    'modelSurat' => $modelSurat,
+                    'modelsTujuan' => (empty($modelsTujuan)) ? [New SuratTujuan] : $modelsTujuan,
+                    'error' => 'valid1: '.print_r($valid1,true).' - valid2: '.print_r($valid2,true),
+                ]);
             }
         } 
         return $this->render('update', [

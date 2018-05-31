@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $modelSurat app\models\Surat */
+/* @var $modelsTujuan app\models\SuratTujuan */
 
 $this->title = 'Update Surat Keluar : '.$modelSurat->id;
 $this->params['breadcrumbs'][] = ['label' => 'Surat Keluar', 'url' => ['index']];

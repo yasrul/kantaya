@@ -82,8 +82,6 @@ use app\models\UnitKerja;
                 'formFields' => [
                     'id_surat',
                     'id_penerima',
-                    'penerima_manual',
-                    'alamat_manual',
                 ],
             ]); ?>
 
@@ -100,23 +98,8 @@ use app\models\UnitKerja;
                     <?= $form->field($modelTujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
                         'data' => UnitKerja::listUnit(1),
                         'options' => ['placeholder' => '[ Penerima Surat ]'],
-                        'pluginOptions' => ['allowClear' => true],
                     ]); ?>                  
-                    </div>
-                                       
-                    <!--
-                        <?php echo Collapse::widget([
-                        'items' => [
-                            [
-                                'label' => 'Pengirim Manual',
-                                'content' => [
-                                    $form->field($modelTujuan, "[{$i}]penerima_manual")->textInput(['maxLength'=>true]),
-                                    $form->field($modelTujuan, "[{$i}]alamat_manual")->textInput(['maxLength'=>true])
-                                ]
-                            ]
-                        ]
-                        ]) ?>
-                    -->                        
+                    </div>              
                                        
                     <div class="col-sm-2 col-md-1 item-action">
                     	<div class="pull-right">
