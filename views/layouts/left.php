@@ -35,7 +35,7 @@
         <?php
             $items = [
                 ['label' => 'Menu Kantaya', 'options' => ['class' => 'header']],
-                ['label'=>'Home', 'url'=>['/site/index']],
+                ['label'=>'Home', 'url'=>['/']],
             ];
             
             if (Yii::$app->user->isGuest) {
