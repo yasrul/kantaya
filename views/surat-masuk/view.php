@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     
     <p>
+        <?php if (Yii::$app->user->identity->unit_id == $modelSurat->id_perekam) : ?>
         <?= Html::a('Update', ['update', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']); ?>
         <?= Html::a('Delete', ['delete', 'id' => $modelSurat->id], [
             'class' => 'btn btn-danger',
@@ -25,7 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ]
         ]); ?>
-        <!--<?= Html::a('Disposisi', ['create-dispo', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>-->
+        <?php endif; ?>
+        
         <?= Html::a('Buat Disposisi', ['disposisi/create', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Teruskan', ['surat-masuk/create', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
     </p>

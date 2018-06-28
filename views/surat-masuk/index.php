@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\RegisterSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -33,7 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['attribute'=>'tgl_surat', 'contentOptions'=>['style'=>'width : 10%']],
                     'perihal',
 
-                    ['class' => 'yii\grid\ActionColumn'],
+                    ['class' => 'yii\grid\ActionColumn',
+                       'visibleButtons'=> [
+                           'update' => function ($model) {
+                                return Yii::$app->user->identity->unit_id == $model->id_perekam;
+                            },
+                            'delete' => function ($model) {
+                                return Yii::$app->user->identity->unit_id == $model->id_perekam;
+                            },
+                       ]
+                    ],
                 ],
             ]); ?>
         </div>   

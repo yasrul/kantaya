@@ -21,7 +21,7 @@ class SuratSearch extends Surat
     {
         return [
             [['id','id_dari','kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim', 'status_akses'], 'integer'],
-            [['no_surat', 'tgl_surat','dari', 'perihal', 'lampiran', 'pengirim', 'pengirim_manual', 'alamat_manual'], 'safe'],
+            [['no_surat', 'tgl_surat','dari', 'perihal', 'lampiran', 'pengirim', 'pengirim_manual', 'alamat_manual', 'id_perekam'], 'safe'],
         ];
     }
 

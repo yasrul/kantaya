@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'password_hash',
             //'password_reset_token',
             'email:email',
+            ['attribute'=>'unitKerja', 'value'=>'unitKerja.unit_kerja'],
             ['attribute'=>'role_id', 'value'=>'role.role_name'],
             ['attribute'=>'status_id','value'=>'status.status_name','contentOptions'=>['style'=>'width: 10%']],
             'created_at:datetime',

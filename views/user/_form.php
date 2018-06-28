@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Departments;
+use app\models\UnitKerja;
 use app\models\Role;
 use app\models\StatusUser;
 
@@ -18,6 +18,11 @@ use app\models\StatusUser;
     <?= $form->field($model, 'username')->textInput(['maxlength' => true,'style'=>'width: 700px']) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'style'=>'width: 700px']) ?>
+    
+    <?= $form->field($model, 'unit_id')->dropDownList(UnitKerja::listUnit(1), [
+        'prompt'=>'[ Pilih Unit Kerja ]',
+        'style'=>'width: 300px',
+    ]) ?>
 
     <?= $form->field($model, 'role_id')->dropDownList(Role::getRoleList(), [
         'prompt'=>'[ Pilih Role ]',
