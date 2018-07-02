@@ -1,7 +1,10 @@
 
 <?php
 
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\Pjax;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 
@@ -29,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
         
         <?= Html::a('Buat Disposisi', ['disposisi/create', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Teruskan', ['surat-masuk/create', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::button('Teruskan', ['value'=> Url::to('surat-masuk/teruskan'), 'class' => 'btn btn-success', 'id' => 'modalButton', 'idSurat' => $modelSurat->id]) ?>
     </p>
     
     <?= DetailView::widget([
@@ -86,4 +89,14 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     
 </div>
-   
+
+<?php
+ Modal::begin([
+     'header' => '<h4>Tujuan Terusan</h4>',
+     'id' => 'modal',
+     'size' => 'modal-lg'
+ ]);
+ echo "<div id='modalContent'></div>";
+ 
+ Modal::end();
+?>

@@ -12,7 +12,7 @@ use app\models\Model;
 use app\models\Surat;
 use app\models\Disposisi;
 use app\models\search\SuratSearch;
-//use app\models\TujuanSurat;
+use app\models\TujuanSurat;
 use app\models\SuratTujuan;
 use app\models\DisposisiTujuan;
 
@@ -30,10 +30,10 @@ class SuratMasukController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index','create','update','delete'],
+                'only' => ['index','create','update','delete','teruskan'],
                 'rules' => [
                     [
-                        'actions' => ['index','create','update','delete'],
+                        'actions' => ['index','create','update','delete','teruskan'],
                         'allow' => TRUE,
                         'roles' => ['@'],
                     ]
@@ -134,84 +134,8 @@ class SuratMasukController extends Controller
         }
        
     }
-    
-    public function actionCreateDispo($id) {
-        $modelSurat = $this->findModel($id);
-        $modelDispo = new Disposisi;
-        $modelDispoTujuan = [new DisposisiTujuan];
-        
-        if ($modelDispo->load(Yii::$app->request->post())) {
-            $modelDispo->id_surat = $modelSurat->id;
-            $modelDispo->id_pemberi = Yii::$app->user->id;
-            
-            $modelDispoTujuan = Model::createMultiple(DisposisiTujuan::className());
-            Model::loadMultiple($modelDispoTujuan, Yii::$app->request->post());
-            foreach ($modelDispoTujuan as $dispoTujuan) {
-                $dispoTujuan->id_disposisi = 0;
-            }
-            //ajax validation
-            if (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = Response::Format_JSON;
-                return ArrayHelper::merge(ActiveForm::validateMultiple($modelDispoTujuan),
-                    ActiveForm::validate($modelDispo)
-                );
-            }
-            //validate all model
-            $valid1 = $modelDispo->validate();
-            $valid2 = Model::validateMultiple($modelDispoTujuan);
-            $valid = $valid1 && $valid2;
-            
-            if ($valid) {
-                $transaction = Yii::$app->db->beginTransaction();
-                try {
-                    //simpan master record
-                    if ($flag = $modelDispo->save(false)) {
-                        //simpan detil record
-                        foreach ($modelDispoTujuan as $dispoTujuan) {
-                            $dispoTujuan->id_disposisi = $modelDispo->id;
-                            if ( ! ($flag = $dispoTujuan->save(false))) {
-                                $transaction->rollBack();
-                                break;
-                            }
-                        }
-                    }
-                    if ($flag) {
-                        //sukses, commit transaction
-                        $transaction->commit();
-                        return $this->redirect(['view', 'id' => $modelSurat->id]);
-                    } else {
-                        return $this->render('create-dispo', [
-                            'modelDispo' => $modelDispo,
-                            'modelDispoTujuan' => $modelDispoTujuan,
-                            'id_surat' => $modelSurat->id,
-                        ]);
-                    }
-                    
-                } catch (Exception $ex) {
-                    //penyimpanan gagal, rollback transaction
-                    $transaction->rollBack();
-                    throw $ex;
-                }
-            } else {
-                return $this->render('create-dispo', [
-                    'modelDispo' => $modelDispo,
-                    'modelDispoTujuan' => $modelDispoTujuan,
-                    'id_surat' => $modelSurat->id,
-                    'error' => 'valid1: '.print_r($valid1,true).' - valid2: '.print_r($valid2,true),
-                ]);
-            }
-            
-        } else {
-            $modelDispo->id = 0;
-            return $this->render('create-dispo', [
-                'modelDispo' => $modelDispo,
-                'modelDispoTujuan' => $modelDispoTujuan,
-                'id_surat' => $modelSurat->id,
-            ]);
-        }
-    }
 
-        public function actionUpdate($id) {
+    public function actionUpdate($id) {
         $modelSurat = $this->findModel($id);
         $modelTujuan = SuratTujuan::find()->where(['id_surat' => $modelSurat->id, 'id_penerima' => Yii::$app->user->identity->unit_id])->one();
      
@@ -273,8 +197,34 @@ class SuratMasukController extends Controller
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
+    
+    public function actionTeruskan($idSurat) {
+        $modelsTujuan = Model::createMultiple(SuratTujuan::className());
+        if (Model::loadMultiple($modelsTujuan, Yii::$app->request->post())) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                foreach ($modelsTujuan as $modelTujuan) {
+                    $modelTujuan->id_surat = $idSurat;
+                    $modelTujuan->id_penerus = Yii::$app->user->identity->id_unit;
+                    $modelTujuan->tgl_diteruskan = date('Y-m-d');
+                    if ($flag = $modelTujuan->save(false)) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $idSurat]);
+                    } else {
+                        $transaction->rollBack();
+                        break;
+                    }
+                } 
+            } catch (Exception $ex) {
+                $transaction->rollBack();
+                throw $ex;
+            }
+            
+        } 
+        return $this->renderAjax('teruskan', [(empty($modelsTujuan)) ? [New SuratTujuan()] : $modelsTujuan,]);
+    }
 
-        protected function findModel($id) {
+    protected function findModel($id) {
         if (($model = Surat::findOne($id)) !== NULL) {
             return $model;
         } else {

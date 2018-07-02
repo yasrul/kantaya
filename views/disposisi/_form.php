@@ -24,7 +24,7 @@ use app\models\UnitKerja;
         'removeButton' => false
     ]) ?>
     
-    <?= $form->field($modelDispo, 'pesan')->textarea(['row'=>'2', 'style'=>'width : 500px']) ?>
+    <?= $form->field($modelDispo, 'pesan')->textarea(['rows'=>3, 'style'=>'width : 50%']) ?>
     <?= $form->field($modelDispo, 'tgl_selesai')->widget(DatePicker::className(), [
         'options' => ['placeholder' => '[ Tanggal Selesai ]', 'style' => 'width : 300px'],
         'pluginOptions' => [
@@ -34,7 +34,7 @@ use app\models\UnitKerja;
         'removeButton' => false
     ]) ?>
     
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="width: 35%">
         <div class="panel-heading"><h5><i class="glyphicon glyphicon-th-list"></i> Penerima Disposisi </h5></div>
         <div class="panel-body">
              <?php DynamicFormWidget::begin([
@@ -64,7 +64,7 @@ use app\models\UnitKerja;
                             echo Html::activeHiddenInput($dispoTujuan, "[{$i}]id");
                         }
                     ?>
-                    <div class="col-sm-8 col-md-4">
+                    <div class="col-sm-8 col-md-10">
                     <?= $form->field($dispoTujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
                         'data' => UnitKerja::listUnit(Yii::$app->user->identity->unit_id),
                         'options' => ['placeholder' => '[ Penerima Disposisi ]'],
