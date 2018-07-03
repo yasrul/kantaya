@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\StatusTujuan;
 
 /**
  * This is the model class for table "surat_tujuan".
@@ -67,5 +68,9 @@ class SuratTujuan extends \yii\db\ActiveRecord
     public function getPenerima()
     {
         return $this->hasOne(UnitKerja::className(), ['id' => 'id_penerima']);
+    }
+    
+    public function getStatusTujuan() {
+        return $this->hasOne(StatusTujuan::className(), ['id' => 'status_tujuan']);
     }
 }

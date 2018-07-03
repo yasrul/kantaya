@@ -157,6 +157,7 @@ class SuratMasukController extends Controller
                         // simpan details record                      
                             $modelTujuan->id_surat = $modelSurat->id;
                             $modelTujuan->id_penerima = Yii::$app->user->identity->unit_id;
+                            $modelTujuan->status_tujuan = 1;
                             if (! ($flag = $modelTujuan->save(false))) {
                                 $transaction->rollBack();
                             }                        
@@ -198,22 +199,24 @@ class SuratMasukController extends Controller
         return $this->redirect(['index']);
     }
     
-    public function actionTeruskan($idSurat) {
+    public function actionTeruskan($id) {
         $modelsTujuan = Model::createMultiple(SuratTujuan::className());
         if (Model::loadMultiple($modelsTujuan, Yii::$app->request->post())) {
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 foreach ($modelsTujuan as $modelTujuan) {
-                    $modelTujuan->id_surat = $idSurat;
-                    $modelTujuan->id_penerus = Yii::$app->user->identity->id_unit;
+                    $modelTujuan->id_surat = $id;
+                    $modelTujuan->id_penerus = Yii::$app->user->identity->unit_id;
+                    $modelTujuan->status_tujuan = 3;
                     $modelTujuan->tgl_diteruskan = date('Y-m-d');
-                    if ($flag = $modelTujuan->save(false)) {
-                        $transaction->commit();
-                        return $this->redirect(['view', 'id' => $idSurat]);
-                    } else {
+                    if (! ($flag = $modelTujuan->save(false))) {
                         $transaction->rollBack();
                         break;
                     }
+                }
+                if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $id]);
                 } 
             } catch (Exception $ex) {
                 $transaction->rollBack();
@@ -221,7 +224,7 @@ class SuratMasukController extends Controller
             }
             
         } 
-        return $this->renderAjax('teruskan', [(empty($modelsTujuan)) ? [New SuratTujuan()] : $modelsTujuan,]);
+        return $this->renderAjax('teruskan', ['modelsTujuan' => (empty($modelsTujuan)) ? [New SuratTujuan()] : $modelsTujuan,]);
     }
 
     protected function findModel($id) {

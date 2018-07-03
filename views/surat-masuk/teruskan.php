@@ -44,7 +44,7 @@ use app\models\UnitKerja;
                             echo Html::activeHiddenInput($modelTujuan, "[{$i}]id");
                         }
                     ?>
-                    <div class="col-sm-8 col-md-4">
+                    <div class="col-sm-8 col-md-10">
                     <?= $form->field($modelTujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
                         'data' => UnitKerja::listUnit(1),
                         'options' => ['placeholder' => '[ Penerima Surat ]'],
@@ -70,7 +70,7 @@ use app\models\UnitKerja;
     </div>
       
     <div class="form-group">
-        <?= Html::submitButton($modelSurat->isNewRecord ? 'Create' : 'Update', ['class'=>$modelSurat->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($modelTujuan->isNewRecord ? 'Create' : 'Update', ['class'=>$modelTujuan->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
     
     <?php ActiveForm::end(); ?>

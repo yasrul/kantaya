@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
         
         <?= Html::a('Buat Disposisi', ['disposisi/create', 'id' => $modelSurat->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::button('Teruskan', ['value'=> Url::to('surat-masuk/teruskan'), 'class' => 'btn btn-success', 'id' => 'modalButton', 'idSurat' => $modelSurat->id]) ?>
+        <?= Html::a('Teruskan', ['teruskan', 'id' => $modelSurat->id], ['class' => 'btn btn-success', 'data-toggle' => "modal", 'data-target' => "#teruskanModal"]) ?>
     </p>
     
     <?= DetailView::widget([
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel-body">
             <?= GridView::widget([
             'dataProvider' => new yii\data\ActiveDataProvider([
-                'query' => $modelSurat->getTujuan()->where(['id_penerima' => \Yii::$app->user->identity->unit_id]),
+                'query' => $modelSurat->getTujuan(),
                 'pagination' => false,
             ]),
             'columns' => [
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'tgl_diterima',
                 'penerima_manual',
                 'alamat_manual',
-                'status_tujuan',
+                ['attribute'=>'status_tujuan', 'value'=>'statusTujuan.status_name'],
             ]
         ]) ?>
         </div>
@@ -93,10 +93,30 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
  Modal::begin([
      'header' => '<h4>Tujuan Terusan</h4>',
-     'id' => 'modal',
+     'id' => 'teruskanModal',
      'size' => 'modal-lg'
  ]);
- echo "<div id='modalContent'></div>";
+    Pjax::begin([
+        'id'=>'pjax-modal', 'timeout'=>false,
+        'enablePushState'=>false,
+        'enableReplaceState'=>false,
+    ]);
+    
+    Pjax::end();
  
  Modal::end();
+?>
+
+<?php 
+$this->registerJs('
+    $("#teruskanModal").on("shown.bs.modal", function(event) {
+            var button = $(event.relatedTarget)
+            var href = button.attr("href")
+            $.pjax.reload("#pjax-modal", {
+                "timeout":false,
+                "url":href,
+                "replace":false,
+            });
+    })
+');
 ?>

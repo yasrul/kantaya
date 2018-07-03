@@ -208,3 +208,23 @@ public function rules()
         ]);
     ?>
     </table>
+
+View Surat
+<div class="panel panel-success">
+        <div class="panel-heading">Tujuan Surat</div>        
+        <div class="panel-body">
+            <?= GridView::widget([
+            'dataProvider' => new yii\data\ActiveDataProvider([
+                'query' => $modelSurat->getTujuan()->where(['id_penerima' => \Yii::$app->user->identity->unit_id]),
+                'pagination' => false,
+            ]),
+            'columns' => [
+                'penerima.unit_kerja',
+                'tgl_diterima',
+                'penerima_manual',
+                'alamat_manual',
+                'status_tujuan',
+            ]
+        ]) ?>
+        </div>
+    </div>
