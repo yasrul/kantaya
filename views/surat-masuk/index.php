@@ -42,7 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'delete' => function ($model) {
                                 return Yii::$app->user->identity->unit_id == $model->id_perekam;
                             },
-                       ]
+                        ],
+                        
                     ],
                 ],
             ]); ?>

@@ -18,25 +18,30 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <div class="panel panel-success">
+        <div class="panel-body">
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-            ['attribute'=>'id','contentOptions'=>['style'=>'width: 7%']],
-            'username',
-            //'auth_key',
-            //'password_hash',
-            //'password_reset_token',
-            'email:email',
-            ['attribute'=>'unitKerja', 'value'=>'unitKerja.unit_kerja'],
-            ['attribute'=>'role_id', 'value'=>'role.role_name'],
-            ['attribute'=>'status_id','value'=>'status.status_name','contentOptions'=>['style'=>'width: 10%']],
-            'created_at:datetime',
-            // 'updated_at',
+                    ['attribute'=>'id','contentOptions'=>['style'=>'width: 7%']],
+                    'username',
+                    //'auth_key',
+                    //'password_hash',
+                    //'password_reset_token',
+                    'email:email',
+                    ['attribute'=>'unitKerja', 'value'=>'unitKerja.unit_kerja'],
+                    ['attribute'=>'role_id', 'value'=>'role.role_name'],
+                    ['attribute'=>'status_id','value'=>'status.status_name','contentOptions'=>['style'=>'width: 10%']],
+                    'created_at:datetime',
+                    // 'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn','contentOptions'=>['style'=>'width: 6%']],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn','contentOptions'=>['style'=>'width: 6%']],
+                ],
+            ]); ?>
+        </div>
+    </div>
+    
 </div>

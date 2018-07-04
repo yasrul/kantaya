@@ -7,7 +7,8 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\search\DisposisiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Disposisi';
+$io == 'in' ? $label = 'Disposisi Masuk' : $label = 'Disposisi Keluar'; 
+$this->title = $label;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="disposisi-index">
@@ -25,10 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $searchModel,
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
-
-                    'id',
-                    'id_surat',
-                    'id_pemberi',
+                    //'id',
+                    //'id_surat',
+                    ['attribute'=>'no_surat', 'value'=>'surat.no_surat'],
+                    ['attribute'=>'pemberi', 'value'=>'pemberi.unit_kerja'],
                     'tgl_disposisi',
                     'tgl_selesai',
                     // 'id_intruksi',

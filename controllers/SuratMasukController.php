@@ -12,7 +12,6 @@ use app\models\Model;
 use app\models\Surat;
 use app\models\Disposisi;
 use app\models\search\SuratSearch;
-use app\models\TujuanSurat;
 use app\models\SuratTujuan;
 use app\models\DisposisiTujuan;
 
@@ -59,6 +58,13 @@ class SuratMasukController extends Controller
     }
 
     public function actionView($id) {
+        if ($tujuan = SuratTujuan::find()->where(['id_surat'=>$id, 'id_penerima'=>Yii::$app->user->identity->unit_id])->one()) {
+            if ($tujuan->tgl_diterima == NULL) {
+                date_default_timezone_set('Asia/Makassar');
+                $tujuan->tgl_diterima = date('Y-m-d H:i:s');
+                $tujuan->save();
+            }
+        }
         return $this->render('view', [
             'modelSurat' => $this->findModel($id),
         ]);

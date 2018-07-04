@@ -66,7 +66,7 @@ use app\models\UnitKerja;
         'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
     ]) ?>
     -->
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="width : 35%">
         <div class="panel-heading"><h5><i class="glyphicon glyphicon-th-list"></i> Tujuan Surat</h5></div>
         <div class="panel-body">
              <?php DynamicFormWidget::begin([
@@ -94,7 +94,7 @@ use app\models\UnitKerja;
                             echo Html::activeHiddenInput($modelTujuan, "[{$i}]id");
                         }
                     ?>
-                    <div class="col-sm-8 col-md-4">
+                    <div class="col-sm-8 col-md-11">
                     <?= $form->field($modelTujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
                         'data' => UnitKerja::listUnit(1),
                         'options' => ['placeholder' => '[ Penerima Surat ]'],

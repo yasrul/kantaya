@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\UnitKerja;
 
 /**
  * This is the model class for table "disposisi".
@@ -60,5 +61,9 @@ class Disposisi extends \yii\db\ActiveRecord
 
     public function getTujuan() {
         return $this->hasMany(DisposisiTujuan::className(), ['id_disposisi' => 'id']);
+    }
+    
+    public function getPemberi() {
+        return $this->hasOne(UnitKerja::className(), ['id' =>'id_pemberi']);
     }
 }

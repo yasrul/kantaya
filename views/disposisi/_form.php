@@ -45,7 +45,7 @@ use app\models\UnitKerja;
                 'min' => 1,                                  // 0 or 1 (default 1)
                 'insertButton' => '.add-item',               // css class
                 'deleteButton' => '.remove-item',            // css class
-                'model' => $modelDispoTujuan[0],
+                'model' => $modelsTujuan[0],
                 'formId' => 'disposisi-form',
                 'formFields' => [
                     'id_disposisi',
@@ -56,16 +56,16 @@ use app\models\UnitKerja;
             ]); ?>
 
             <div class="container-items"><!-- widgetContainer -->
-            <?php foreach ($modelDispoTujuan as $i => $dispoTujuan): ?>
+            <?php foreach ($modelsTujuan as $i => $modelTujuan): ?>
                 <div class="item row">    
                     <?php
                         // necessary for update action.
-                        if (! $dispoTujuan->isNewRecord) {
-                            echo Html::activeHiddenInput($dispoTujuan, "[{$i}]id");
+                        if (! $modelTujuan->isNewRecord) {
+                            echo Html::activeHiddenInput($modelTujuan, "[{$i}]id");
                         }
                     ?>
                     <div class="col-sm-8 col-md-10">
-                    <?= $form->field($dispoTujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
+                    <?= $form->field($modelTujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
                         'data' => UnitKerja::listUnit(Yii::$app->user->identity->unit_id),
                         'options' => ['placeholder' => '[ Penerima Disposisi ]'],
                         'pluginOptions' => ['allowClear' => true],

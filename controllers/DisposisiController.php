@@ -57,6 +57,7 @@ class DisposisiController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'io'=>$io
         ]);
     }
 
@@ -81,27 +82,27 @@ class DisposisiController extends Controller
     {
         $modelSurat = $this->findSurat($id);
         $modelDispo = new Disposisi;
-        $modelDispoTujuan = [new DisposisiTujuan];
+        $modelsTujuan = [new DisposisiTujuan];
         
         if ($modelDispo->load(Yii::$app->request->post())) {
             $modelDispo->id_surat = $modelSurat->id;
             $modelDispo->id_pemberi = Yii::$app->user->id;
             
-            $modelDispoTujuan = Model::createMultiple(DisposisiTujuan::className());
-            Model::loadMultiple($modelDispoTujuan, Yii::$app->request->post());
-            foreach ($modelDispoTujuan as $dispoTujuan) {
-                $dispoTujuan->id_disposisi = 0;
+            $modelsTujuan = Model::createMultiple(DisposisiTujuan::className());
+            Model::loadMultiple($modelsTujuan, Yii::$app->request->post());
+            foreach ($modelsTujuan as $modelTujuan) {
+                $modelTujuan->id_disposisi = 0;
             }
             //ajax validation
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::Format_JSON;
-                return ArrayHelper::merge(ActiveForm::validateMultiple($modelDispoTujuan),
+                return ArrayHelper::merge(ActiveForm::validateMultiple($modelsTujuan),
                     ActiveForm::validate($modelDispo)
                 );
             }
             //validate all model
             $valid1 = $modelDispo->validate();
-            $valid2 = Model::validateMultiple($modelDispoTujuan);
+            $valid2 = Model::validateMultiple($modelsTujuan);
             $valid = $valid1 && $valid2;
             
             if ($valid) {
@@ -110,9 +111,9 @@ class DisposisiController extends Controller
                     //simpan master record
                     if ($flag = $modelDispo->save(false)) {
                         //simpan detil record
-                        foreach ($modelDispoTujuan as $dispoTujuan) {
-                            $dispoTujuan->id_disposisi = $modelDispo->id;
-                            if ( ! ($flag = $dispoTujuan->save(false))) {
+                        foreach ($modelsTujuan as $modelTujuan) {
+                            $modelTujuan->id_disposisi = $modelDispo->id;
+                            if ( ! ($flag = $modelTujuan->save(false))) {
                                 $transaction->rollBack();
                                 break;
                             }
@@ -125,7 +126,7 @@ class DisposisiController extends Controller
                     } else {
                         return $this->render('create', [
                             'modelDispo' => $modelDispo,
-                            'modelDispoTujuan' => $modelDispoTujuan,
+                            'modelsTujuan' => $modelsTujuan,
                             'id_surat' => $modelSurat->id,
                         ]);
                     }
@@ -138,7 +139,7 @@ class DisposisiController extends Controller
             } else {
                 return $this->render('create', [
                     'modelDispo' => $modelDispo,
-                    'modelDispoTujuan' => $modelDispoTujuan,
+                    'modelsTujuan' => $modelsTujuan,
                     'id_surat' => $modelSurat->id,
                     'error' => 'valid1: '.print_r($valid1,true).' - valid2: '.print_r($valid2,true),
                 ]);
@@ -148,7 +149,7 @@ class DisposisiController extends Controller
             $modelDispo->id = 0;
             return $this->render('create', [
                 'modelDispo' => $modelDispo,
-                'modelDispoTujuan' => $modelDispoTujuan,
+                'modelsTujuan' => $modelsTujuan,
                 'id_surat' => $modelSurat->id,
             ]);
         }
@@ -162,15 +163,63 @@ class DisposisiController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $modelDispo = $this->findModel($id);
+        $modelsTujuan = $modelDispo->tujuan;
+        
+        if ($modelDispo->load(Yii::$app->request->post())) {
+            
+            $oldIDs = ArrayHelper::map($modelsTujuan, 'id', 'id');
+            $modelsTujuan = Model::createMultiple(DisposisiTujuan::className(), $modelsTujuan);
+            Model::loadMultiple($modelsTujuan, Yii::$app->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsTujuan, 'id', 'id')));
+            
+            //ajax validation
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ArrayHelper::merge(
+                        ActiveForm::validateMultiple($modelsTujuan), 
+                        ActiveForm::validate($modelDispo));
+            }
+            //validate all model
+            $valid1 = $modelDispo->validate();
+            $valid2 = Model::validateMultiple($modelsTujuan);
+            $valid = $valid1 && $valid2;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+            if ($valid) {
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $modelDispo->save(false)) {
+                        if(!empty($deletedIDs)) {
+                            DisposisiTujuan::deleteAll(['id' => $deletedIDs]);
+                        }
+                        foreach ($modelsTujuan as $modelTujuan) {
+                            $modelTujuan->id_disposisi = $modelDispo->id;
+                            if (! ($flag = $modelTujuan->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $modelDispo->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                    throw $e;
+                }
+            } else {
+                return $this->render('update', [
+                    'modelDispo' => $modelDispo,
+                    'modelsTujuan' => (empty($modelsTujuan)) ? [New DisposisiTujuan] : $modelsTujuan,
+                    'error' => 'valid1: '.print_r($valid1,true).' - valid2: '.print_r($valid2,true),
+                ]);
+            }
+        } 
+        return $this->render('update', [
+            'modelDispo' => $modelDispo,
+            'modelsTujuan' => (empty($modelsTujuan)) ? [New DisposisiTujuan] : $modelsTujuan 
+        ]);
     }
 
     /**

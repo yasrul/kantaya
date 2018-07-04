@@ -18,18 +18,23 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Role', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'options' => ['style'=>'width:65%'],
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <div class="panel panel-info" style="width : 50%">
+        <div class="panel-body">
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            //'options' => ['style'=>'width:65%'],
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
 
-            ['attribute'=>'id','contentOptions'=>['style'=>'width: 8%']],
-            'role_name',
-            ['attribute'=>'role_value','contentOptions'=>['style'=>'width: 20%']],
+                ['attribute'=>'id','contentOptions'=>['style'=>'width: 8%']],
+                'role_name',
+                ['attribute'=>'role_value','contentOptions'=>['style'=>'width: 20%']],
 
-            ['class' => 'yii\grid\ActionColumn','contentOptions'=>['style'=>'width: 10%']],
-        ],
-    ]); ?>
+                ['class' => 'yii\grid\ActionColumn','contentOptions'=>['style'=>'width: 10%']],
+            ],
+        ]); ?>
+        </div>
+    </div>
+
 </div>

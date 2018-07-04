@@ -15,6 +15,7 @@ class DisposisiSearch extends Disposisi
     public $no_surat;
     public $tgl_surat;
     public $perihal;
+    public $pemberi;
     /**
      * @inheritdoc
      */
@@ -22,7 +23,7 @@ class DisposisiSearch extends Disposisi
     {
         return [
             [['id', 'id_surat', 'id_pemberi', 'id_intruksi'], 'integer'],
-            [['tgl_disposisi', 'tgl_selesai', 'pesan'], 'safe'],
+            [['no_surat','tgl_disposisi', 'tgl_selesai', 'pesan','pemberi'], 'safe'],
         ];
     }
 
@@ -45,9 +46,9 @@ class DisposisiSearch extends Disposisi
     public function search($params, $io)
     {
         if ($io == 'in') {
-            $query = Disposisi::find()->where(['disposisi_tujuan.id_penerima' => Yii::$app->user->id])->orderBy('tgl_disposisi Desc')->joinWith(['tujuan','surat']);
+            $query = Disposisi::find()->where(['disposisi_tujuan.id_penerima' => Yii::$app->user->identity->unit_id])->orderBy('tgl_disposisi Desc')->joinWith(['tujuan','surat','pemberi']);
         } elseif ($io == 'out') {
-            $query = Disposisi::find()->where(['id_pemberi' => Yii::$app->user->id])->orderBy('tgl_disposisi Desc')->joinWith(['tujuan','surat']);   
+            $query = Disposisi::find()->where(['id_pemberi' => Yii::$app->user->identity->unit_id])->orderBy('tgl_disposisi Desc')->joinWith(['tujuan','surat','pemberi']);   
         }
         
 
@@ -69,7 +70,7 @@ class DisposisiSearch extends Disposisi
         $query->andFilterWhere([
             'id' => $this->id,
             'id_surat' => $this->id_surat,
-            'id_pemberi' => $this->id_pemberi,
+            'unit_kerja.unit_kerja' => $this->pemberi,
             'tgl_disposisi' => $this->tgl_disposisi,
             'tgl_selesai' => $this->tgl_selesai,
             'id_intruksi' => $this->id_intruksi,
