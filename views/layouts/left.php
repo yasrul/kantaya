@@ -39,7 +39,7 @@
             ];
             
             if (Yii::$app->user->isGuest) {
-                $items[] = ['label'=>'Signup', 'url'=>['/site/signup']];
+                //$items[] = ['label'=>'Signup', 'url'=>['/site/signup']];
                 $items[] = ['label'=>'Login', 'url'=>['/site/login']];
             } else {
                 $items[] = ['label' => 'Surat Masuk', 'icon' => 'envelope', 'url' => '#', 'items' => [
@@ -58,6 +58,7 @@
                         ['label'=>'User','url'=>['user/index']],
                         ['label'=>'Role', 'url'=>['role/index']],
                         ['label'=>'Status', 'url'=>['status-user/index']],
+                        ['label'=>'SignUp', 'url'=>['/site/signup']],
                     
                     ]];
                 }

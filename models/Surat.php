@@ -24,14 +24,13 @@ use app\models\SuratTujuan;
  * @property string $pengirim_manual
  * @property string $alamat_manual
  * @property integer $status_akses
- * @property string $doc_srcfilename
- * @property string $doc_appfilename
+ * @property string $dokumen
  * @property string $id_perekam
  * @property TujuanSurat[] $tujuan
  */
 class Surat extends \yii\db\ActiveRecord
 {
-    public $fileup;
+    public $filesup;
     
     /**
      * @inheritdoc
@@ -50,10 +49,10 @@ class Surat extends \yii\db\ActiveRecord
             [['id_dari','no_surat', 'tgl_surat', 'perihal'], 'required'],
             [['tgl_surat'], 'safe'],
             [['kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim','status_akses'], 'integer'],
-            [['no_surat', 'perihal', 'doc_srcfilename', 'doc_appfilename', 'alamat_manual'], 'string', 'max' => 255],
+            [['no_surat', 'perihal', 'alamat_manual'], 'string', 'max' => 255],
             [['lampiran', 'pengirim_manual'], 'string', 'max' => 100],
-            [['doc_srcfilename', 'doc_appfilename', 'id_perekam'], 'safe'],
-            [['fileup'], 'file', 'extensions' => ['jpg','jpeg','pdf','zip','rar'],
+            [['dokumen', 'id_perekam'], 'safe'],
+            [['filesup'], 'file', 'extensions' => ['jpg','jpeg','pdf','zip','rar'],
                 'maxSize' => 1024*1024,
                 'skipOnEmpty' => TRUE,
             ]
@@ -78,9 +77,8 @@ class Surat extends \yii\db\ActiveRecord
             'pengirim_manual' => 'Pengirim Manual',
             'alamat_manual' => 'Alamat Manual',
             'status_akses' => 'Status Akses',
-            'doc_src_filename' => 'Nama File Sumber',
-            'doc_app_filename' => 'Nama File App',
-            'fileup' => 'Upload Dokumen'
+            'dokumen' => 'Nama File Dokumen',
+            'filesup' => 'Upload Dokumen'
         ];
     }
     
@@ -133,17 +131,29 @@ class Surat extends \yii\db\ActiveRecord
         return $idUnit.$th.sprintf("%04d",$maxId);
     }
     
-    public function uploadFile() {
-        $fileup = UploadedFile::getInstance($this, 'fileup');
+    public function uploadFiles() {
+        $filesup = UploadedFile::getInstances($this, 'filesup');
         
-        if (!isset($fileup)) {
+        if (! isset($filesup)) {
             return FALSE;
+        } else {
+            $dokumen = '';
+            foreach ($filesup as $fileup) {
+                $filename = $fileup->name;
+                $path = Yii::$app->basePath.'/web/docfiles/'.$filename;
+                $count = 0;
+                while (file_exists($path)) {
+                    $count++;
+                    $filename = $fileup->baseName.'_'.$count.'.'.$fileup->extension;
+                    $path = Yii::$app->basePath.'/web/docfiles/'.$filename;                      
+                }
+                $dokumen .= $filename.'//';
+                $fileup->saveAs($path);
+            }
+            $this->dokumen = $dokumen;
         }
-        $this->doc_srcfilename = $fileup->name;
-        $ext = end((explode(".", $fileup->name)));
-        $this->doc_appfilename = Yii::$app->security->generateRandomString().".{$ext}";
         
-        return $fileup;       
+        return TRUE;       
     }
     
     public function getPathFile() {

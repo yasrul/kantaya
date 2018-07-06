@@ -46,8 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'kecepatanSampai.nama_kecepatan',
             'tingkatKeamanan.nama_tingkat',
             'pengirim.unit_kerja',
-            'pengirim_manual',
-            'alamat_manual',
+            //'pengirim_manual',
+            //'alamat_manual',
         ]
     ]) ?>
     
@@ -62,8 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 'penerima.unit_kerja',
                 'tgl_diterima',
-                'penerima_manual',
-                'alamat_manual',
+                //'penerima_manual',
+                //'alamat_manual',
                 ['attribute'=>'status_tujuan', 'value'=>'statusTujuan.status_name'],
             ]
         ]) ?>

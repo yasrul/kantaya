@@ -6,7 +6,6 @@ use yii\bootstrap\Collapse;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use kartik\file\FileInput;
-//use yii\helpers\ArrayHelper;
 //use wbraganca\dynamicform\DynamicFormWidget;
 
 use app\models\KecepatanSampai;
@@ -15,8 +14,7 @@ use app\models\UnitKerja;
 
 /* @var $this yii\web\View */
 /* @var $modelSurat app\models\Surat */
-/* @var $modelTujuan app\models\TujuanSurat */
-/* @var $modelRegister app\models\Register */
+/* @var $modelTujuan app\models\SuratTujuan */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
@@ -56,8 +54,9 @@ use app\models\UnitKerja;
         'style' => 'width : 300px',
     ]) ?>
     
-    <?= $form->field($modelSurat, 'fileup')->widget(FileInput::className(), [
-        'options' => ['accept' => '*/*'],
+    <?php if ($modelSurat->isNewRecord) : ?>
+    <?= $form->field($modelSurat, 'filesup[]')->widget(FileInput::className(), [
+        'options' => ['multiple' => TRUE,'accept' => '*/*'],
         'pluginOptions' => [
             'allowedFileExtensions'=>['jpg','jpeg','png','pdf','zip','rar'], 
             'showUpload'=>FALSE,
@@ -66,13 +65,26 @@ use app\models\UnitKerja;
             'style' => 'width : 500px'
         ]
     ]) ?>
+    <?php else : ?>
+    <?= $form->field($modelSurat, 'filesup[]')->widget(FileInput::className(), [
+        'options' => ['multiple' => true],
+        'pluginOptions' => [
+            'showUpload' => FALSE,
+            'initialPreview' => $urlFiles,
+            'initialPreviewAsData'=>true,
+            'overwriteInitial'=>false,
+            'initialPreviewConfig' => $previewConfig,
+            'previewFileType' => 'any',
+        ]
+    ]); ?>
+    <?php endif ?>
     
     <?= $form->field($modelSurat, 'id_pengirim')->widget(Select2::className(), [
         'data' => UnitKerja::listUnit(1),
         'options' => ['placeholder' => '[ Pilih Pengirim ]'],
         'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
     ]) ?>
-    
+    <!--
     <?php echo Collapse::widget([
         'items' => [
             [
@@ -84,7 +96,7 @@ use app\models\UnitKerja;
             ]
         ]
     ]) ?>
-      
+    -->  
     <div class="form-group">
         <?= Html::submitButton($modelSurat->isNewRecord ? 'Create' : 'Update', ['class'=>$modelSurat->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

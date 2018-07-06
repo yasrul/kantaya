@@ -93,14 +93,10 @@ class SuratMasukController extends Controller
                 // mulai database transaction
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
-                    $upload = $modelSurat->uploadFile();
+                    //simpan FileDokumen
+                    $modelSurat->uploadFiles();
                     // simpan master record                   
-                    if ($flag = $modelSurat->save(false)) {
-                        //simpan file
-                        if ($upload) {
-                            $path = $modelSurat->getPathFile();
-                            $upload->saveAs($path);
-                        }
+                    if ($flag = $modelSurat->save(false)) {                      
                         // simpan details record
                         $modelTujuan->id_surat = $modelSurat->id;
                         $modelTujuan->id_penerima = Yii::$app->user->identity->unit_id;

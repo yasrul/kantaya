@@ -54,8 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'penerima.unit_kerja',
             'tgl_diterima',
-            'penerima_manual',
-            'alamat_manual',
+            //'penerima_manual',
+            //'alamat_manual',
             'status_tujuan',
         ]
         ]) ?>
