@@ -20,7 +20,7 @@ use app\models\UnitKerja;
 ?>
 
 <div class="surat-masuk-form">
-    <?php $form = ActiveForm::begin(['id' => 'surat-masuk-form']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'surat-masuk-form', 'options' => ['enctype' => 'multipart/form-data']]); ?>
     <?= $form->field($modelSurat, 'id_dari')->widget(Select2::className(), [
         'data' => UnitKerja::listUnit(1),
         'options' => ['placeholder' => '[ Surat Dari... ]'],

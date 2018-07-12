@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use app\models\Model;
 use app\models\Surat;
@@ -140,6 +141,19 @@ class SuratMasukController extends Controller
     public function actionUpdate($id) {
         $modelSurat = $this->findModel($id);
         $modelTujuan = SuratTujuan::find()->where(['id_surat' => $modelSurat->id, 'id_penerima' => Yii::$app->user->identity->unit_id])->one();
+        $previewConfig = [];
+        $urlfiles = [];
+        
+        if (isset($modelSurat->dokumen)) {
+            $dokumens = explode("//", $modelSurat->dokumen);         
+            for ($i=0; $i < count($dokumens)-1; $i++) {
+                $urlfiles[] = Url::toRoute('web/docfiles/'.$dokumens[$i]);
+                $previewConfig[] = [
+                    'caption'=>$dokumens[$i],
+                    'url' => Url::to(['delete-file','id' => $modelSurat->id,'file'=>$dokumens[$i]]) ,
+                ];
+            }
+        }
      
         if ($modelSurat->load(Yii::$app->request->post()) && $modelTujuan->load(Yii::$app->request->post())) {
                       
@@ -154,6 +168,8 @@ class SuratMasukController extends Controller
                 // mulai database transaction
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
+                    //simpan file dokumen
+                    $modelSurat->uploadFiles();
                     // simpan master record                   
                     if ($flag = $modelSurat->save(false)) {
                         // simpan details record                      
@@ -181,17 +197,21 @@ class SuratMasukController extends Controller
                     throw $e;
                 }
             } else {
-                return $this->render('create', [
+                return $this->render('update', [
                     'modelSurat' => $modelSurat,
                     'modelTujuan' => $modelTujuan,
+                    'urlFiles' => $urlfiles,
+                    'previewConfig' => $previewConfig,
                     'error' => 'valid1: '.print_r($valid1,true).' - valid2: '.print_r($valid2,true),
                 ]);
             }         
         } else {            
             // render view
-            return $this->render('create', [
+            return $this->render('update', [
                 'modelSurat' => $modelSurat,
                 'modelTujuan' => $modelTujuan,
+                'urlFiles' => $urlfiles,
+                'previewConfig' => $previewConfig,
             ]);
         }
     }
@@ -199,6 +219,32 @@ class SuratMasukController extends Controller
     public function actionDelete($id) {
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
+    }
+    
+    public function actionDeleteFile($id, $file) {
+        
+        $model = $this->findModel($id);
+        $old_dokumens = explode("//", $model->dokumen);
+        
+        $pathfile = Yii::$app->basePath.'/web/docfiles/'.$file;
+        
+        if(empty($file) || !file_exists($pathfile)) {
+            return FALSE;
+        }
+        
+        if(!unlink($pathfile)) {
+            return FALSE;
+        }
+        $dokumens = '';
+        for ($i=0; $i < count($old_dokumens)-1; $i++) {
+            if ($old_dokumens[$i]!== $file) {
+                $dokumens .= $old_dokumens[$i].'//';
+            }
+        }
+        $model->dokumen = $dokumens;
+        if ($model->save()) {        
+            return TRUE;
+        }
     }
     
     public function actionTeruskan($id) {

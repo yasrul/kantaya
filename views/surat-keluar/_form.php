@@ -49,7 +49,7 @@ use app\models\UnitKerja;
         'style' => 'width : 300px',
     ]) ?>
     <?php if ($modelSurat->isNewRecord) : ?>
-    <?= $form->field($modelSurat, 'fileup')->widget(FileInput::className(), [
+    <?= $form->field($modelSurat, 'filesup[]')->widget(FileInput::className(), [
         'options' => ['accept' => '*/*'],
         'pluginOptions' => [
             'allowedFileExtensions'=>['jpg','jpeg','png','pdf','zip','rar'], 

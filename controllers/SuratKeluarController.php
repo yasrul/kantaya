@@ -98,6 +98,8 @@ class SuratKeluarController extends Controller {
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
+                    //simpan FileDokumen
+                    $modelSurat->uploadFiles();
                     // simpan master record                   
                     if ($flag = $modelSurat->save(false)) {
                         // simpan details record
@@ -133,6 +135,19 @@ class SuratKeluarController extends Controller {
     public function actionUpdate($id) {
         $modelSurat = $this->findModel($id);
         $modelsTujuan = $modelSurat->tujuan;
+        $previewConfig = [];
+        $urlfiles = [];
+        
+        if (isset($modelSurat->dokumen)) {
+            $dokumens = explode("//", $modelSurat->dokumen);         
+            for ($i=0; $i < count($dokumens)-1; $i++) {
+                $urlfiles[] = Url::toRoute('web/docfiles/'.$dokumens[$i]);
+                $previewConfig[] = [
+                    'caption'=>$dokumens[$i],
+                    'url' => Url::to(['delete-file','id' => $modelSurat->id,'file'=>$dokumens[$i]]) ,
+                ];
+            }
+        }
         
         if ($modelSurat->load(Yii::$app->request->post())) {
             
@@ -156,6 +171,9 @@ class SuratKeluarController extends Controller {
             if ($valid) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
+                    //simpan file dokumen
+                    $modelSurat->uploadFiles();
+                    //simpan master file
                     if ($flag = $modelSurat->save(false)) {
                         if(!empty($deletedIDs)) {
                             SuratTujuan::deleteAll(['id' => $deletedIDs]);
@@ -180,13 +198,17 @@ class SuratKeluarController extends Controller {
                 return $this->render('update', [
                     'modelSurat' => $modelSurat,
                     'modelsTujuan' => (empty($modelsTujuan)) ? [New SuratTujuan] : $modelsTujuan,
+                    'urlFiles' => $urlfiles,
+                    'previewConfig' => $previewConfig,
                     'error' => 'valid1: '.print_r($valid1,true).' - valid2: '.print_r($valid2,true),
                 ]);
             }
         } 
         return $this->render('update', [
             'modelSurat' => $modelSurat,
-            'modelsTujuan' => (empty($modelsTujuan)) ? [New SuratTujuan] : $modelsTujuan 
+            'modelsTujuan' => (empty($modelsTujuan)) ? [New SuratTujuan] : $modelsTujuan,
+            'urlFiles' => $urlfiles,
+            'previewConfig' => $previewConfig,
         ]);
         
     }
@@ -194,6 +216,32 @@ class SuratKeluarController extends Controller {
     public function actionDelete($id) {
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
+    }
+    
+    public function actionDeleteFile($id, $file) {
+        
+        $model = $this->findModel($id);
+        $old_dokumens = explode("//", $model->dokumen);
+        
+        $pathfile = Yii::$app->basePath.'/web/docfiles/'.$file;
+        
+        if(empty($file) || !file_exists($pathfile)) {
+            return FALSE;
+        }
+        
+        if(!unlink($pathfile)) {
+            return FALSE;
+        }
+        $dokumens = '';
+        for ($i=0; $i < count($old_dokumens)-1; $i++) {
+            if ($old_dokumens[$i]!== $file) {
+                $dokumens .= $old_dokumens[$i].'//';
+            }
+        }
+        $model->dokumen = $dokumens;
+        if ($model->save()) {        
+            return TRUE;
+        }
     }
     
 

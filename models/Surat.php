@@ -47,11 +47,10 @@ class Surat extends \yii\db\ActiveRecord
     {
         return [
             [['id_dari','no_surat', 'tgl_surat', 'perihal'], 'required'],
-            [['tgl_surat'], 'safe'],
             [['kecepatan_sampai', 'tingkat_keamanan', 'id_pengirim','status_akses'], 'integer'],
             [['no_surat', 'perihal', 'alamat_manual'], 'string', 'max' => 255],
             [['lampiran', 'pengirim_manual'], 'string', 'max' => 100],
-            [['dokumen', 'id_perekam'], 'safe'],
+            [['tgl_surat','dokumen', 'id_perekam'], 'safe'],
             [['filesup'], 'file', 'extensions' => ['jpg','jpeg','pdf','zip','rar'],
                 'maxSize' => 1024*1024,
                 'skipOnEmpty' => TRUE,
@@ -137,7 +136,7 @@ class Surat extends \yii\db\ActiveRecord
         if (! isset($filesup)) {
             return FALSE;
         } else {
-            $dokumen = '';
+            $dokumen = $this->dokumen;
             foreach ($filesup as $fileup) {
                 $filename = $fileup->name;
                 $path = Yii::$app->basePath.'/web/docfiles/'.$filename;
