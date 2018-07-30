@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\models\Model;
 use app\models\Surat;
@@ -141,7 +142,7 @@ class SuratKeluarController extends Controller {
         if (isset($modelSurat->dokumen)) {
             $dokumens = explode("//", $modelSurat->dokumen);         
             for ($i=0; $i < count($dokumens)-1; $i++) {
-                $urlfiles[] = Url::toRoute('web/docfiles/'.$dokumens[$i]);
+                $urlfiles[] = Url::to('/web/docfiles/'.$dokumens[$i]);
                 $previewConfig[] = [
                     'caption'=>$dokumens[$i],
                     'url' => Url::to(['delete-file','id' => $modelSurat->id,'file'=>$dokumens[$i]]) ,
@@ -244,6 +245,14 @@ class SuratKeluarController extends Controller {
         }
     }
     
+    public function actionDownload($filename) {
+   
+        $path = Yii::getAlias('@app').'/web/docfiles/'.$filename;
+        
+        if(file_exists($path)) {
+            return Yii::$app->response->sendFile($path);
+        }
+    }
 
     protected function findModel($id) {
         if (($model = Surat::findOne($id)) !== NULL) {

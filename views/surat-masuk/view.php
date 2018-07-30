@@ -7,6 +7,8 @@ use yii\helpers\Url;
 use yii\widgets\Pjax;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
+use yii\bootstrap\ActiveForm;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View  */
 /* @var $modelSurat app\models\Surat */
@@ -48,6 +50,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'pengirim.unit_kerja',
             //'pengirim_manual',
             //'alamat_manual',
+            [
+                'attribute'=>'dokumen',
+                'format' => 'raw',
+                'value' => function($data) {
+                    $files = '';
+                    if (isset($data->dokumen)) {
+                    $dokumens = explode("//", $data->dokumen);         
+                    for ($i=0; $i < count($dokumens)-1; $i++) {
+                        $files .= Html::a($dokumens[$i], ['download','filename'=>$dokumens[$i]]).'<br>';
+                    }
+                    return $files;
+                    }
+                }
+            ]
         ]
     ]) ?>
     

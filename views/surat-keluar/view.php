@@ -40,6 +40,20 @@ $this->params['breadcrumbs'][] = $this->title;
             //'pengirim.unit_kerja',
             //'pengirim_manual',
             //'alamat_manual',
+            [
+                'attribute'=>'dokumen',
+                'format' => 'raw',
+                'value' => function($data) {
+                    $files = '';
+                    if (isset($data->dokumen)) {
+                        $dokumens = explode("//", $data->dokumen);         
+                        for ($i=0; $i < count($dokumens)-1; $i++) {
+                            $files .= Html::a($dokumens[$i], ['download','filename'=>$dokumens[$i]]).'<br>';
+                        }
+                    }
+                    return $files;
+                }
+            ]
         ]
     ]) ?>
     

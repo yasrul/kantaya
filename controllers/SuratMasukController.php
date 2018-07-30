@@ -30,10 +30,10 @@ class SuratMasukController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index','create','update','delete','teruskan'],
+                'only' => ['index','create','update','delete','teruskan','download'],
                 'rules' => [
                     [
-                        'actions' => ['index','create','update','delete','teruskan'],
+                        'actions' => ['index','create','update','delete','teruskan','download'],
                         'allow' => TRUE,
                         'roles' => ['@'],
                     ]
@@ -59,6 +59,11 @@ class SuratMasukController extends Controller
     }
 
     public function actionView($id) {
+        
+        $modelSurat = $this->findModel($id);
+        $previewConfig = [];
+        $urlfiles = [];
+        
         if ($tujuan = SuratTujuan::find()->where(['id_surat'=>$id, 'id_penerima'=>Yii::$app->user->identity->unit_id])->one()) {
             if ($tujuan->tgl_diterima == NULL) {
                 date_default_timezone_set('Asia/Makassar');
@@ -66,8 +71,21 @@ class SuratMasukController extends Controller
                 $tujuan->save();
             }
         }
+        
+        if (isset($modelSurat->dokumen)) {
+            $dokumens = explode("//", $modelSurat->dokumen);         
+            for ($i=0; $i < count($dokumens)-1; $i++) {
+                $urlfiles[] = Url::toRoute('web/docfiles/'.$dokumens[$i]);
+                $previewConfig[] = [
+                    'caption'=>$dokumens[$i],
+                    'url' => Url::to(['delete-file','id' => $modelSurat->id,'file'=>$dokumens[$i]]) ,
+                ];
+            }
+        }
         return $this->render('view', [
-            'modelSurat' => $this->findModel($id),
+            'modelSurat' => $modelSurat,
+            'urlFiles' => $urlfiles,
+            'previewConfig' => $previewConfig,
         ]);
     }
 
@@ -147,7 +165,7 @@ class SuratMasukController extends Controller
         if (isset($modelSurat->dokumen)) {
             $dokumens = explode("//", $modelSurat->dokumen);         
             for ($i=0; $i < count($dokumens)-1; $i++) {
-                $urlfiles[] = Url::toRoute('web/docfiles/'.$dokumens[$i]);
+                $urlfiles[] = Url::to('/web/docfiles/'.$dokumens[$i]);
                 $previewConfig[] = [
                     'caption'=>$dokumens[$i],
                     'url' => Url::to(['delete-file','id' => $modelSurat->id,'file'=>$dokumens[$i]]) ,
@@ -275,6 +293,15 @@ class SuratMasukController extends Controller
         return $this->renderAjax('teruskan', ['modelsTujuan' => (empty($modelsTujuan)) ? [New SuratTujuan()] : $modelsTujuan,]);
     }
 
+    public function actionDownload($filename) {
+   
+        $path = Yii::getAlias('@app').'/web/docfiles/'.$filename;
+        
+        if(file_exists($path)) {
+            return Yii::$app->response->sendFile($path);
+        }
+    }
+    
     protected function findModel($id) {
         if (($model = Surat::findOne($id)) !== NULL) {
             return $model;

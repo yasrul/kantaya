@@ -62,7 +62,7 @@
                     
                     ]];
                 }
-                $items[] = ['label' => 'Logout', 'url' => ['site/logout'], 'visible' => ! Yii::$app->user->isGuest];
+                $items[] = ['label' => 'Logout ('.Yii::$app->user->identity->username .')', 'url' => ['site/logout'], 'visible' => ! Yii::$app->user->isGuest];
         }
             
             

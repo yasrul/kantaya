@@ -51,7 +51,7 @@ class Surat extends \yii\db\ActiveRecord
             [['no_surat', 'perihal', 'alamat_manual'], 'string', 'max' => 255],
             [['lampiran', 'pengirim_manual'], 'string', 'max' => 100],
             [['tgl_surat','dokumen', 'id_perekam'], 'safe'],
-            [['filesup'], 'file', 'extensions' => ['jpg','jpeg','pdf','zip','rar'],
+            [['filesup'], 'file', 'extensions' => ['jpg','jpeg','png','pdf','zip','rar'],
                 'maxSize' => 1024*1024,
                 'skipOnEmpty' => TRUE,
             ]
@@ -76,8 +76,8 @@ class Surat extends \yii\db\ActiveRecord
             'pengirim_manual' => 'Pengirim Manual',
             'alamat_manual' => 'Alamat Manual',
             'status_akses' => 'Status Akses',
-            'dokumen' => 'Nama File Dokumen',
-            'filesup' => 'Upload Dokumen'
+            'dokumen' => 'File Dokumen',
+            'filesup' => 'File Dokumen'
         ];
     }
     
