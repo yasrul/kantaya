@@ -12,6 +12,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 use app\models\KecepatanSampai;
 use app\models\TingkatKeamanan;
 use app\models\UnitKerja;
+use app\models\StatusTujuan;
 
 /* @var $this yii\web\View */
 /* @var $modelSurat app\models\Surat */
@@ -79,7 +80,7 @@ use app\models\UnitKerja;
         'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
     ]) ?>
     -->
-    <div class="panel panel-default" style="width : 35%">
+    <div class="panel panel-default" style="width : 50%">
         <div class="panel-heading"><h5><i class="glyphicon glyphicon-th-list"></i> Tujuan Surat</h5></div>
         <div class="panel-body">
              <?php DynamicFormWidget::begin([
@@ -95,6 +96,7 @@ use app\models\UnitKerja;
                 'formFields' => [
                     'id_surat',
                     'id_penerima',
+                    'status_tujuan'
                 ],
             ]); ?>
 
@@ -107,22 +109,28 @@ use app\models\UnitKerja;
                             echo Html::activeHiddenInput($modelTujuan, "[{$i}]id");
                         }
                     ?>
-                    <div class="col-sm-8 col-md-11">
-                    <?= $form->field($modelTujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
-                        'data' => UnitKerja::listUnit(1),
-                        'options' => ['placeholder' => '[ Penerima Surat ]'],
-                    ]); ?>                  
-                    </div>              
-                                       
-                    <div class="col-sm-2 col-md-1 item-action">
-                    	<div class="pull-right">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <?= $form->field($modelTujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
+                                'data' => UnitKerja::listUnit(1),
+                                'options' => ['placeholder' => '[ Penerima Surat ]'],
+                            ]); ?>
+                        </div>
+                        <div class="col-sm-4">
+                            <?= $form->field($modelTujuan, "[{$i}]status_tujuan")->dropDownList(StatusTujuan::listStatusTujuan(), [
+                                'prompt' => '[Jenis Tujuan]',
+                                'style' => 'width : 130px'
+                            ]) ?>
+                        </div>
+                        <div class="col-sm-11 item-action">
+                            <div class="pull-right">
 	                    <button type="button" class="add-item btn btn-success btn-xs">
                                 <i class="glyphicon glyphicon-plus"></i></button> 
 	                    <button type="button" class="remove-item btn btn-danger btn-xs">
 	                        <i class="glyphicon glyphicon-minus"></i></button>
-                    	</div>
-                    </div>
-                    
+                            </div>
+                        </div>
+                    </div>                                                 
                 </div><!-- .row -->
 
             <?php endforeach; ?>

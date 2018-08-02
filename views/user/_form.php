@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
 use app\models\UnitKerja;
 use app\models\Role;
 use app\models\StatusUser;
@@ -19,9 +20,10 @@ use app\models\StatusUser;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'style'=>'width: 700px']) ?>
     
-    <?= $form->field($model, 'unit_id')->dropDownList(UnitKerja::listUnit(1), [
-        'prompt'=>'[ Pilih Unit Kerja ]',
-        'style'=>'width: 300px',
+    <?= $form->field($model, 'unit_id')->widget(Select2::className(), [
+        'data' => UnitKerja::listUnit(1),
+        'options' => ['placeholder' => '[ Pilih Unit Kerja ]'],
+        'pluginOptions' => ['allowClear' => true, 'width'=>'500px']
     ]) ?>
 
     <?= $form->field($model, 'role_id')->dropDownList(Role::getRoleList(), [

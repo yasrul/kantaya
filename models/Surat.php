@@ -9,6 +9,7 @@ use app\models\TingkatKeamanan;
 use app\models\Disposisi;
 use app\models\DisposisiTujuan;
 use app\models\SuratTujuan;
+use app\models\StatusTujuan;
 
 /**
  * This is the model class for table "surat".
@@ -109,7 +110,11 @@ class Surat extends \yii\db\ActiveRecord
         return $this->hasOne(StatusAkses::className(), ['id' => 'status_akses']);
     }
     
-    public function getDisposisi() {
+    public function getStatusTujuan() {
+        return $this->hasOne(StatusTujuan::className(), ['id' => 'status_tujuan']);
+    }
+
+        public function getDisposisi() {
         return $this->hasMany(Disposisi::className(), ['id_surat' => 'id']);
     }
 

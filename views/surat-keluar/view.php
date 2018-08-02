@@ -70,7 +70,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'tgl_diterima',
             //'penerima_manual',
             //'alamat_manual',
-            'status_tujuan',
+            [
+                'attribute'=>'status_tujuan',
+                'value'=>'statusTujuan.status_name',
+                'label'=>'Jenis Tujuan'
+            ]
+            
         ]
         ]) ?>
         </div>
