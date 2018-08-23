@@ -82,8 +82,8 @@ use app\models\StatusTujuan;
     -->
     <div class="panel panel-default" style="width : 50%">
         <div class="panel-heading"><h5><i class="glyphicon glyphicon-th-list"></i> Tujuan Surat</h5></div>
-        <div class="panel-body">
-             <?php DynamicFormWidget::begin([
+        
+            <?php DynamicFormWidget::begin([
                 'widgetContainer' => 'dynamicform_wrapper',  // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
                 'widgetBody' => '.container-items',          // required: css class selector
                 'widgetItem' => '.item',                     // required: css class
@@ -99,49 +99,57 @@ use app\models\StatusTujuan;
                     'status_tujuan'
                 ],
             ]); ?>
+            
+            <table class="table table-bordered table-striped margin-b-none">
+            <thead>
+            <tr>
+                <th class="required">Tujuan</th>
+                <th style="width: 188px;">Status</th>
+            </tr>
+            </thead>
 
-            <div class="container-items"><!-- widgetContainer -->
+            <tbody class="container-items">
+
             <?php foreach ($modelsTujuan as $i => $modelTujuan): ?>
-                <div class="item row">    
-                    <?php
-                        // necessary for update action.
-                        if (! $modelTujuan->isNewRecord) {
-                            echo Html::activeHiddenInput($modelTujuan, "[{$i}]id");
-                        }
-                    ?>
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <?= $form->field($modelTujuan, "[{$i}]id_penerima")->widget(Select2::className(), [
+                <tr class="item">
+                    <td class="vcenter">
+                        <?= $form->field($modelTujuan, "[{$i}]id_penerima")->label(false)->widget(Select2::className(), [
                                 'data' => UnitKerja::listUnit(1),
                                 'options' => ['placeholder' => '[ Penerima Surat ]'],
-                            ]); ?>
-                        </div>
-                        <div class="col-sm-4">
-                            <?= $form->field($modelTujuan, "[{$i}]status_tujuan")->dropDownList(StatusTujuan::listStatusTujuan(), [
+                        ]); ?>
+                    </td>
+                    <td class="vcenter">
+                        <?= $form->field($modelTujuan, "[{$i}]status_tujuan")->label(false)->dropDownList(StatusTujuan::listStatusTujuan(), [
                                 'prompt' => '[Jenis Tujuan]',
                                 'style' => 'width : 130px'
-                            ]) ?>
-                        </div>
-                        <div class="col-sm-11 item-action">
-                            <div class="pull-right">
-	                    <button type="button" class="add-item btn btn-success btn-xs">
-                                <i class="glyphicon glyphicon-plus"></i></button> 
-	                    <button type="button" class="remove-item btn btn-danger btn-xs">
-	                        <i class="glyphicon glyphicon-minus"></i></button>
-                            </div>
-                        </div>
-                    </div>                                                 
-                </div><!-- .row -->
+                        ]) ?>
+                        
+                        <?php if (!$modelTujuan->isNewRecord): ?>
+                            <?= Html::activeHiddenInput($modelTujuan, "[{$i}]id"); ?>
+                        <?php endif; ?>
+                    </td>                        
+                    <td class="text-center vcenter">
+                        <button type="button" class="remove-item btn btn-danger btn-xs"><i class="fa fa-minus"></i></button>
+                    </td>
+                </tr>
 
             <?php endforeach; ?>
-            </div>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="2"></td>
+                <td class="text-center vcenter">
+                    <button type="button" class="add-item btn btn-success btn-sm"><span class="fa fa-plus"></span> New</button>
+                </td>
+            </tr>
+            </tfoot>
+            </table>
 
             <?php DynamicFormWidget::end(); ?>
-        </div>
+
     </div>
-
-
-      
+             
     <div class="form-group">
         <?= Html::submitButton($modelSurat->isNewRecord ? 'Create' : 'Update', ['class'=>$modelSurat->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
